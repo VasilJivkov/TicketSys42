@@ -8,6 +8,24 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
     Companies.associate = function (models) {
         // associations can be defined here
+        const {
+            Tickets,
+            Projects,
+            Companies,
+            Logs,
+            Notifications,
+            Users
+        } = models;
+
+        Tickets.belongsTo(Projects);
+        Projects.belongsTo(Companies);
+        Logs.belongsTo(Companies);
+        Notifications.belongsToMany(Users, {
+            through: 'UsersNotifications'
+        });
+        Users.belongsToMany(Projects, {
+            through: 'UsersProjects'
+        });
     };
     return Companies;
 };
