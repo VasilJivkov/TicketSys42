@@ -6,7 +6,7 @@
     "scripts": {
         "migrate": "cd db && sequelize db:migrate && cd ..",
         "add-migration": "cd db && read name && node ../node_modules/sequelize-auto-migrations/bin/makemigration.js --name $name && cd ..",
-        "start": ""
+        "start": "node ./app/server.js"
     },
     "repository": {
         "type": "git",
