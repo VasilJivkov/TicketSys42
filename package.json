@@ -19,9 +19,11 @@
         "url": "https://github.com/VasilJivkov/TicketSys42/issues"
     },
     "homepage": "https://github.com/VasilJivkov/TicketSys42#readme",
-    "dependencies": {
+    "devDependencies": {
         "babel-eslint": "^8.2.3",
-        "eslint-config-google": "^0.9.1",
+        "eslint-config-google": "^0.9.1"
+    },
+    "dependencies": {
         "express": "^4.16.3",
         "mysql2": "^1.5.3",
         "sequelize": "^4.37.6",
