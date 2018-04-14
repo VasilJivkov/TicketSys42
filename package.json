@@ -4,8 +4,8 @@
     "description": "A simple ticketing system for a Team Project",
     "main": "test.js",
     "scripts": {
-        "migrate": "sequelize db:migrate",
-        "add-migration": "read name && node ./node_modules/sequelize-auto-migrations/bin/makemigration.js --name $name",
+        "migrate": "cd db && sequelize db:migrate && cd ..",
+        "add-migration": "cd db && read name && node ../node_modules/sequelize-auto-migrations/bin/makemigration.js --name $name && cd ..",
         "start": ""
     },
     "repository": {
