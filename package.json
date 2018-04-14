@@ -1,0 +1,29 @@
+{
+    "name": "TicketSys42",
+    "version": "1.0.0",
+    "description": "A simple ticketing system for a Team Project",
+    "main": "test.js",
+    "scripts": {
+        "migrate": "sequelize db:migrate",
+        "add-migration": "read name && node ./node_modules/sequelize-auto-migrations/bin/makemigration.js --name $name",
+        "start": ""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/VasilJivkov/TicketSys42.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/VasilJivkov/TicketSys42/issues"
+    },
+    "homepage": "https://github.com/VasilJivkov/TicketSys42#readme",
+    "dependencies": {
+        "babel-eslint": "^8.2.3",
+        "eslint-config-google": "^0.9.1",
+        "mysql2": "^1.5.3",
+        "sequelize": "^4.37.6",
+        "sequelize-auto-migrations": "^1.0.2"
+    }
+}
