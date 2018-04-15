@@ -11,7 +11,7 @@ var Sequelize = require('sequelize');
  * createTable "Users", deps: []
  * createTable "Logs", deps: [Companies]
  * createTable "Projects", deps: [Companies]
- * createTable "Tickets", deps: [Projects]
+ * createTable "Tickets.js", deps: [Projects]
  * createTable "UsersNotifications", deps: [Notifications, Users]
  * createTable "UsersProjects", deps: [Users, Projects]
  *
