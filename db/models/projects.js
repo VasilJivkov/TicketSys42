@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             allowNull: false,
         },
-        owner: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        }
     }, {});
     Projects.associate = function (models) {
         // associations can be defined here

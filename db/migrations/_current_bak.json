@@ -143,6 +143,10 @@
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
                 },
+                "owner": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.INTEGER"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
@@ -155,16 +159,6 @@
                     "allowNull": true,
                     "references": {
                         "model": "Companies",
-                        "key": "id"
-                    },
-                    "onDelete": "SET NULL",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "ownerId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "Users",
                         "key": "id"
                     },
                     "onDelete": "SET NULL",
@@ -398,5 +392,5 @@
             "indexes": []
         }
     },
-    "revision": 3
+    "revision": 2
 }

@@ -23,11 +23,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         labels: {
             type: DataTypes.STRING,
-            allowNull: false,
         },
         files: {
             type: DataTypes.STRING,
-            allowNull: false,
         }
     }, {});
     Tickets.associate = function (models) {
