@@ -5,7 +5,6 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const flash = require('connect-flash');
 
 const init = (app) => {
     // defensive programming
@@ -22,8 +21,6 @@ const init = (app) => {
     // decorator
     app.use(morgan('combined'));
 
-    // decorator
-    app.use(flash());
 };
 
 module.exports = {

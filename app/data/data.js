@@ -10,10 +10,10 @@ const {
 const Data = require('./generic.data');
 
 module.exports = {
-    answers: new Data(Companies),
-    categories: new Data(Labels),
-    posts: new Data(Notifications),
-    threads: new Data(Projects),
-    userRoles: new Data(Tickets),
-    users: new Data(Users),
+    Comapnies: new Data(Companies),
+    Labels: new Data(Labels),
+    Notifications: new Data(Notifications),
+    Projects: new Data(Projects),
+    Tickets: new Data(Tickets),
+    Users: new Data(Users),
 };
