@@ -29,10 +29,6 @@ module.exports = {
         }], {});
     },
     down: (queryInterface, Sequelize) => {
-        return queryInterface.bulkDelete('Tickets', [{
-            title: 'Meeting with XYZ company HR',
-        }, {
-            title: 'File a lawsuit against ALPHABET company',
-        }]);
+        return queryInterface.bulkDelete('Tickets', null, {});
     },
 };
