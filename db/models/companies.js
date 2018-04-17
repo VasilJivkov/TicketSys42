@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         } = models;
 
         Tickets.belongsTo(Projects);
+        Tickets.belongsTo(Users, {as: 'assignee'})
+        Tickets.belongsTo(Users, {as: 'requester'})
         Projects.belongsTo(Companies);
         Logs.belongsTo(Companies);
         Notifications.belongsToMany(Users, {

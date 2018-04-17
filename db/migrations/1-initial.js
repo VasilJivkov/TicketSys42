@@ -7,11 +7,10 @@ var Sequelize = require('sequelize');
  *
  * createTable "Companies", deps: []
  * createTable "Notifications", deps: []
- * createTable "Roles", deps: []
  * createTable "Users", deps: []
  * createTable "Logs", deps: [Companies]
  * createTable "Projects", deps: [Companies]
- * createTable "Tickets", deps: [Projects]
+ * createTable "Tickets", deps: [Projects, Users, Users]
  * createTable "UsersNotifications", deps: [Notifications, Users]
  * createTable "UsersProjects", deps: [Users, Projects]
  *
@@ -20,7 +19,7 @@ var Sequelize = require('sequelize');
 var info = {
     "revision": 1,
     "name": "initial",
-    "created": "2018-04-14T14:38:16.061Z",
+    "created": "2018-04-17T11:05:46.492Z",
     "comment": ""
 };
 
@@ -79,33 +78,6 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "url": {
-                    "type": Sequelize.STRING,
-                    "allowNull": false
-                },
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                }
-            },
-            {}
-        ]
-    },
-    {
-        fn: "createTable",
-        params: [
-            "Roles",
-            {
-                "id": {
-                    "type": Sequelize.INTEGER,
-                    "autoIncrement": true,
-                    "primaryKey": true,
-                    "allowNull": false
-                },
-                "title": {
                     "type": Sequelize.STRING,
                     "allowNull": false
                 },
@@ -278,14 +250,6 @@ var migrationCommands = [{
                     "type": Sequelize.DATE,
                     "allowNull": false
                 },
-                "requester": {
-                    "type": Sequelize.INTEGER,
-                    "allowNull": false
-                },
-                "assignee": {
-                    "type": Sequelize.INTEGER,
-                    "allowNull": false
-                },
                 "priority": {
                     "type": Sequelize.INTEGER,
                     "allowNull": false
@@ -316,6 +280,26 @@ var migrationCommands = [{
                     "onDelete": "SET NULL",
                     "references": {
                         "model": "Projects",
+                        "key": "id"
+                    },
+                    "allowNull": true
+                },
+                "assigneeId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "SET NULL",
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "allowNull": true
+                },
+                "requesterId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "SET NULL",
+                    "references": {
+                        "model": "Users",
                         "key": "id"
                     },
                     "allowNull": true

@@ -144,30 +144,6 @@
             },
             "indexes": []
         },
-        "Roles": {
-            "tableName": "Roles",
-            "schema": {
-                "id": {
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "title": {
-                    "allowNull": false,
-                    "seqType": "Sequelize.STRING"
-                },
-                "createdAt": {
-                    "allowNull": false,
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "seqType": "Sequelize.DATE"
-                }
-            },
-            "indexes": []
-        },
         "Tickets": {
             "tableName": "Tickets",
             "schema": {
@@ -188,14 +164,6 @@
                 "deadline": {
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
-                },
-                "requester": {
-                    "allowNull": false,
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "assignee": {
-                    "allowNull": false,
-                    "seqType": "Sequelize.INTEGER"
                 },
                 "priority": {
                     "allowNull": false,
@@ -225,6 +193,26 @@
                     "allowNull": true,
                     "references": {
                         "model": "Projects",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "assigneeId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "requesterId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Users",
                         "key": "id"
                     },
                     "onDelete": "SET NULL",
