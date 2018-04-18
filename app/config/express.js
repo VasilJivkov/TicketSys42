@@ -1,10 +1,6 @@
-/* globals __dirname */
-
-const path = require('path');
-
-const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 
 const init = (app) => {
     // defensive programming
@@ -14,13 +10,15 @@ const init = (app) => {
     }
 
     // decorator
+    app.use(cookieParser());
+
+    // decorator
     app.use(bodyParser.urlencoded({
         extended: true,
     }));
 
     // decorator
     app.use(morgan('combined'));
-
 };
 
 module.exports = {
