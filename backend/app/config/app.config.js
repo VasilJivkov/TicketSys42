@@ -1,7 +1,7 @@
 const config = (() => {
     const PORT = 8000;
-    const JWT_SECRET = 'xxx';
-    const JWT_ISS = 'telerik';
+    const JWT_SECRET = 'crazy_dev';
+    const JWT_ISS = 'maniacs';
     const JWT_EXPIRE_TIME = 60 * 60; // in seconds
 
     return {
