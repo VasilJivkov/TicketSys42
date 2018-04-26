@@ -1,0 +1,45 @@
+{
+    "name": "TicketSys42",
+    "version": "1.0.0",
+    "description": "A simple ticketing system for a Team Project",
+    "main": "test.js",
+    "scripts": {
+        "migrate": "cd db && sequelize db:migrate && cd ..",
+        "add-migration": "cd db && read name && node ../node_modules/sequelize-auto-migrations/bin/makemigration.js --name $name && cd ..",
+        "start": "node ./app/server.js",
+        "seed": "./node_modules/.bin/sequelize db:seed:all"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/VasilJivkov/TicketSys42.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/VasilJivkov/TicketSys42/issues"
+    },
+    "homepage": "https://github.com/VasilJivkov/TicketSys42#readme",
+    "dependencies": {
+        "bcrypt-nodejs": "0.0.3",
+        "body-parser": "^1.18.2",
+        "cookie-parser": "^1.4.3",
+        "cors": "^2.8.4",
+        "express": "^4.16.3",
+        "jwt-simple": "^0.5.1",
+        "moment": "^2.22.1",
+        "morgan": "^1.9.0",
+        "mysql2": "^1.5.3",
+        "passport": "^0.4.0",
+        "passport-jwt": "^4.0.0",
+        "sequelize": "^4.37.4",
+        "sequelize-auto-migrations": "^1.0.2",
+        "sequelize-cli": "^4.0.0"
+    },
+    "devDependencies": {
+        "eslint": "^4.19.0",
+        "babel-eslint": "^8.2.3",
+        "eslint-config-google": "^0.9.1",
+        "@types/cors": "^2.8.3"
+    }
+}
