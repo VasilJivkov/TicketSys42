@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
-const init = (app) => {
+const init(app){
     // defensive programming
     if (typeof app.use !== 'function' ||
         typeof app.set !== 'function') {
