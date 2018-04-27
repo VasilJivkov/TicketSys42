@@ -2,6 +2,7 @@
 // import { PhoneDetailsComponent } from './phones/details/phone-details.component';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import {SharedModule} from "./shared";
 // import { PhoneListComponent } from './phones/phone-list.component';
 // import { LoginComponent } from './auth/login.component';
 
