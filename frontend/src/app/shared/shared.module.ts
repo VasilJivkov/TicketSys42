@@ -4,7 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import {FooterComponent, HeaderComponent} from "./layout";
-import {MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatToolbarModule} from "@angular/material";
+import {MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatToolbarModule, MatSelectModule, MatFormFieldModule, MatInputModule} from "@angular/material";
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
     imports: [
@@ -13,11 +14,15 @@ import {MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatToolbar
         ReactiveFormsModule,
         MatCardModule,
         MatMenuModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
         HttpClientModule,
         MatButtonModule,
         MatIconModule,
         MatToolbarModule,
-        RouterModule
+        RouterModule,
+        FlexLayoutModule,
     ],
     declarations: [
         HeaderComponent,
@@ -32,10 +37,14 @@ import {MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatToolbar
         MatIconModule,
         MatToolbarModule,
         MatMenuModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
         HttpClientModule,
         RouterModule,
         HeaderComponent,
-        FooterComponent
+        FooterComponent,
+        FlexLayoutModule
     ]
 })
 export class SharedModule {}

@@ -1,25 +1,20 @@
 <div>
-  <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
+  <form validate [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
     <div class="form-container">
-      <div>
-        <input type="text" formControlName='username' (keyup)='validate($event)' placeholder="username">
-
-
-        <div *ngIf="loginForm.controls['username'].touched && !loginForm.controls['username'].valid">
-          <span *ngIf="loginForm.controls['username'].hasError('required') ">
-            Username is required.
-          </span>
-        </div>
-
-      </div>
-      <div>
-        <br>
-        <input type="password" formControlName='password' (keyup)='validate($event)' placeholder="password">
-
-      </div>
+      <mat-form-field>
+        <input matInput type="text" formControlName='username' placeholder="username">
+        <mat-error>{{validate(username)}}</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput type="password" formControlName='password' placeholder="password">
+        <mat-error>{{validate(password)}}</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-error>{{credentialsError}}</mat-error>
       <br>
       <div>
-        <input type="Submit" value="Post Data">
+        <input type="Submit" value="Login">
       </div>
     </div>
   </form>

@@ -58,7 +58,8 @@ class AuthController {
     register() {
         return async (req, res) => {
             const userToCreate = req.body;
-            userToCreate.role = 'user';
+            userToCreate.role = 'User';
+            userToCreate.CompanyId = 1;
 
             const user = await this.data.users.findOrCreate(userToCreate);
 
@@ -66,10 +67,28 @@ class AuthController {
             const isNew = user[user.length - 1];
 
             if (isNew) {
-                res.status(200).send({});
+                const expire = moment(new Date())
+                    .add(config.JWT_EXPIRE_TIME, 'seconds').unix();
+
+                const payload = {
+                    sub: user.id,
+                    username: user.username,
+                    email: user.email,
+                    exp: expire,
+                    iss: config.JWT_ISS,
+                    role: user.role,
+                };
+
+                const secret = config.JWT_SECRET;
+
+                const token = jwt.encode(payload, secret);
+
+                res.status(200).send({
+                    token,
+                });
             } else {
                 res.status(401).send({
-                    err: 'User already exists',
+                    err: 'Username or email already exists.',
                 });
             }
         };

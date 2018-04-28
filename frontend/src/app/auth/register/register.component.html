@@ -1,3 +1,52 @@
-<p>
-  register works!
-</p>
+<div>
+  <form [formGroup]="registerForm" (ngSubmit)="register(registerForm)">
+    <div class="form-container">
+      <mat-form-field>
+        <input matInput type="text" formControlName='username' placeholder="username">
+        <mat-error>{{validate(username)}}</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput type="password" formControlName='password' placeholder="password">
+        <mat-error>{{validate(password)}}</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput type="password" formControlName='rePassword' placeholder="confirm password">
+        <mat-error>{{validate(rePassword, true)}}</mat-error>
+        <mat-error *ngIf="passwordMatch">Passwords do not match!</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput type="text" formControlName='email' placeholder="e-mail">
+        <mat-error>{{validate(email)}}</mat-error>
+      </mat-form-field>
+      <br>
+      <!-- <mat-form-field>
+        <input matInput type="text" formControlName='password' placeholder="dropdown for company">
+        <mat-error>{{validate(password)}}</mat-error>
+      </mat-form-field>
+      <br> -->
+      <mat-form-field>
+        <input matInput type="text" formControlName='nickname' placeholder="nickname - optional">
+        <mat-error>{{validate(nickname)}}</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput type="text" formControlName='firstName' placeholder="first name - optional">
+        <mat-error>{{validate(firstName)}}</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput type="text" formControlName='lastName' placeholder="Last name - optional">
+        <mat-error>{{validate(lastName)}}</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-error>{{registerError}}</mat-error>
+      <br>
+      <div>
+        <input type="Submit" value="Register">
+      </div>
+    </div>
+  </form>
+</div>

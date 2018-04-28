@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   private loginForm: FormGroup;
   private username: AbstractControl;
   private password: AbstractControl;
-  private credentialsError: string
+  private credentialsError: string = null;
 
   constructor(private formBuilder: FormBuilder,
     private auth: AuthService,
@@ -33,21 +33,20 @@ export class LoginComponent implements OnInit {
   
 
   login(loginForm: NgForm): void{
-    this.auth.login(loginForm.value).subscribe((res: AccessToken) => {
-        localStorage.setItem('access_token', res.token);
-        this.toastr.success(`Welcome, ${this.loginForm.get('username').value}!`);
-    },
-        (err: HttpErrorResponse) => {
-            if (err.status === 302) {
-                this.toastr.error(err.error.err);
-            } else {
-                this.toastr.error(err.name);
-            }
-        });
+    if (loginForm.valid) {
+        this.auth.login(loginForm.value).subscribe((res: AccessToken) => {
+            localStorage.setItem('access_token', res.token);
+            this.credentialsError = null;
+            this.toastr.success(`Welcome, ${this.loginForm.get('username').value}!`);
+        },
+            (err: HttpErrorResponse) => {
+                this.credentialsError = err.error.err;
+            });
+    }
   }
 
-  validate(input: AbstractControl): string{
-    if (input.hasError('required')) {
+  validate(inputField: AbstractControl): string{
+    if (inputField.hasError('required')) {
         return 'The field is required';
     }
   }

@@ -302,6 +302,7 @@
                 },
                 "username": {
                     "allowNull": false,
+                    "unique": true,
                     "seqType": "Sequelize.STRING"
                 },
                 "password": {
@@ -310,6 +311,7 @@
                 },
                 "email": {
                     "allowNull": false,
+                    "unique": true,
                     "seqType": "Sequelize.STRING"
                 },
                 "firstName": {

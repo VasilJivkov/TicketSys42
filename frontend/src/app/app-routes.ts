@@ -1,9 +1,9 @@
-// import { RegisterComponent } from './auth/register.component';
 // import { PhoneDetailsComponent } from './phones/details/phone-details.component';
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './auth/login/login.component';
 import {SharedModule} from "./shared";
+import { RegisterComponent } from './auth/register/register.component';
 // import { PhoneListComponent } from './phones/phone-list.component';
 
 export const ROUTES: Routes = [
@@ -15,7 +15,7 @@ export const ROUTES: Routes = [
     //   { path: ':brand', component: PhoneDetailsComponent }
     // ]
 //   },
-//   { path: 'register', component: RegisterComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-//   { path: '**', component: HomeComponent }
+  { path: '**', redirectTo: '/home', /* component: NotFoundComponent */}
 ];
