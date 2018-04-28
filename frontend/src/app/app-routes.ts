@@ -3,6 +3,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './auth/login/login.component';
+import {SharedModule} from "./shared";
 // import { PhoneListComponent } from './phones/phone-list.component';
 
 export const ROUTES: Routes = [
