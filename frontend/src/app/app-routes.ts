@@ -2,8 +2,8 @@
 // import { PhoneDetailsComponent } from './phones/details/phone-details.component';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './auth/login/login.component';
 // import { PhoneListComponent } from './phones/phone-list.component';
-// import { LoginComponent } from './auth/login.component';
 
 export const ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
@@ -15,6 +15,6 @@ export const ROUTES: Routes = [
     // ]
 //   },
 //   { path: 'register', component: RegisterComponent },
-//   { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
 //   { path: '**', component: HomeComponent }
 ];

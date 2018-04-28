@@ -1,7 +1,5 @@
-// import { AuthService } from './auth.service';
-import {
-    TicketsService
-} from './tickets.service';
+import { TicketsService } from './tickets.service';
+import { AuthService } from './auth.service';
 import {
     NgModule
 } from '@angular/core';
@@ -20,7 +18,7 @@ import {
         // Shorthand
         AppConfig,
         TicketsService,
-        // AuthService,
+        AuthService,
         // { provide: TicketsService, useClass: TicketsService },
         // { provide: AuthService, useClass: AuthService },
     ]

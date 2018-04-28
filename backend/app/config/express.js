@@ -18,8 +18,10 @@ const init = (app) => {
 
     // decorator
     app.use(bodyParser.urlencoded({
-        extended: true,
+        extended: false,
     }));
+
+    app.use(bodyParser.json());
 
     // decorator
     app.use(morgan('combined'));

@@ -11,10 +11,11 @@ class AuthController {
 
     login() {
         return async (req, res) => {
+            console.log(req);
             const user = await this.data.users.getOneByCriteria({
                 username: req.body.username,
             });
-
+            console.log(user);
             if (user) {
                 bcrypt.compare(req.body.password, user.password,
                     (err, response) => {
@@ -42,7 +43,7 @@ class AuthController {
                             const token = jwt.encode(payload, secret);
 
                             res.status(200).send({
-                                token: token,
+                                token,
                             });
                         }
                     });
