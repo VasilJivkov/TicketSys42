@@ -6,4 +6,20 @@
             <h2><mat-icon>event</mat-icon>{{ticket.description}}</h2>
         </mat-card>
     </div>
+  <div>
+    <mat-card *ngFor="let company of companies">
+      <h1><mat-icon>assignment</mat-icon>{{company.title}}</h1>
+    </mat-card>
+  </div>
+  <div>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <span>All Tickets Stats</span>
+      </mat-toolbar-row>
+      <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+      <mat-toolbar-row>
+        <span>All Companies Stats</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
 </mat-card>
