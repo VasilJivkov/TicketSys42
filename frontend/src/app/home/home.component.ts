@@ -1,27 +1,25 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { TicketsService } from '../core/tickets.service';
-import { Ticket } from '../models/ticket';
-import { Company } from '../models/company';
-import {CompaniesService} from "../core/companies.service";
+import { Stats } from '../models/stats';
+import {StatsService} from "../core/stats.service";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  providers: [ TicketsService, CompaniesService]
+  providers: [ StatsService]
 })
 
 @Injectable()
 export class HomeComponent implements OnInit {
-    private tickets: Ticket[];
-    private companies : Company[];
+    private stats: Stats[];
+
     constructor(
-      private ticketsServices: TicketsService ,
-                private companyService: CompaniesService
+      private statsService: StatsService ,
     ) { }
 
   ngOnInit() {
-      this.ticketsServices.getAll().subscribe(data => this.tickets = data);
-      this.companyService.getAll().subscribe(data =>this.companies = data);
+      this.statsService.getAll().subscribe(data => {
+        this.stats = data;
+        console.log(this.stats)});
   }
 }

@@ -25,10 +25,10 @@ body {
 }
 
 main {
-    display: flex;
-    flex-direction: column;
-> *:not(router-outlet) {
-    flex: 1;
-    display: block;
+  display: flex;
+  flex-direction: column;
 }
+>*:not(router-outlet) {
+  flex: 1;
+  display: block;
 }

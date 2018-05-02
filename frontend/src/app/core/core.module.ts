@@ -1,4 +1,4 @@
-import { TicketsService } from './tickets.service';
+import { StatsService } from './stats.service';
 import { AuthService } from './auth.service';
 import {
     NgModule
@@ -17,7 +17,7 @@ import {
     providers: [
         // Shorthand
         AppConfig,
-        TicketsService,
+        StatsService,
         AuthService,
         // { provide: TicketsService, useClass: TicketsService },
         // { provide: AuthService, useClass: AuthService },

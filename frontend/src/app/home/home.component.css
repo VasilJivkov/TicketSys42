@@ -1,0 +1,21 @@
+#stats-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+}
+
+mat-card{
+  color:white;
+  background-color: rgba(103, 58, 183, 0.51);
+  margin-bottom: 20px;
+}
+mat-card-subtitle{
+  color:white;
+}
+
+.center{
+  width: 20%;
+  margin: 10px auto;
+}
+
