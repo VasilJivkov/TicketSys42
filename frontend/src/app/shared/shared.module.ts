@@ -7,6 +7,8 @@ import {FooterComponent, HeaderComponent} from "./layout";
 import {MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatToolbarModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatTabsModule, MatTableModule, MatCheckboxModule, MatGridListModule} from "@angular/material";
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+
+
 @NgModule({
     imports: [
         CommonModule,
@@ -30,7 +32,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ],
     declarations: [
         HeaderComponent,
-        FooterComponent
+        FooterComponent,
     ],
     exports: [
         CommonModule,

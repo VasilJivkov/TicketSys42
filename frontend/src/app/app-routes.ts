@@ -1,3 +1,4 @@
+
 // import { PhoneDetailsComponent } from './phones/details/phone-details.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -9,6 +10,8 @@ import { UserPageGuardService } from './route-guards/user-page-guard.service';
 import { NotAuthGuardService } from './route-guards/not-auth-guard.service';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { UserDetailsResolver } from './core/user.details.resolver';
+import {CompanyService} from "./core/company.service";
+import {CompanyDetailsComponent} from "./company/company.details.component";
 
 export const ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
@@ -21,6 +24,7 @@ export const ROUTES: Routes = [
 //   },
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent, canActivate: [AuthGuardService] },
+  { path: 'company/:id', component: CompanyDetailsComponent },
   { path: 'user/:username', component: ProfilePageComponent, resolve: {'object': UserDetailsResolver}, canActivate: [NotAuthGuardService, UserPageGuardService] },
   { path: '**', redirectTo: '/home', /* component: NotFoundComponent */}
 ];

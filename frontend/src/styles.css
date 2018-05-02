@@ -27,7 +27,10 @@ main {
   display: flex;
   flex-direction: column;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> df2cf721925088f90f0105ea531977119568e83c
 >*:not(router-outlet) {
   flex: 1;
   display: block;

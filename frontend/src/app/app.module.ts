@@ -14,6 +14,7 @@ import { SharedModule } from './shared';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { GuardsModule } from './route-guards/guards.module';
 import { ProfilePageModule } from './profile-page/profile-page.module';
+import {CompanyDetailsComponent} from "./company/company.details.component";
 
 export function tokenGetter() {
     return localStorage.getItem('access_token');
@@ -23,6 +24,7 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     HomeComponent,
+    CompanyDetailsComponent,
   ],
   imports: [
     CoreModule,

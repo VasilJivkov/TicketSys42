@@ -1,4 +1,4 @@
-import { TicketsService } from './tickets.service';
+import { StatsService } from './stats.service';
 import { AuthService } from './auth.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -11,8 +11,8 @@ import { UserDetailsResolver } from './user.details.resolver';
   imports: [],
   providers: [
     AppConfig,
-    TicketsService,
     AuthService,
+    StatsService,
     UserPageService,
     UserDetailsResolver,
     // { provide: TicketsService, useClass: TicketsService },
