@@ -1,0 +1,32 @@
+<form [formGroup]="updateDetailsForm" (ngSubmit)="update(updateDetailsForm)">
+  <h3>Update personal details</h3>
+
+  <mat-form-field>
+    <label>E-mail:</label>
+    <input matInput type="text" formControlName='email' [value]="userInfo?.email">
+    <mat-error>{{validate(email)}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <label>Nickname:</label>
+    <input matInput type="text" formControlName='nickname' [value]="userInfo?.nickname">
+    <mat-error>{{validate(nickname)}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <label>First name:</label>
+    <input matInput type="text" formControlName='firstName' [value]="userInfo?.firstName">
+    <mat-error>{{validate(firstName)}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <label>Last Name:</label>
+    <input matInput type="text" formControlName='lastName' [value]="userInfo?.lastName">
+    <mat-error>{{validate(lastName)}}</mat-error>
+  </mat-form-field>
+
+  <mat-error>{{updateError}}</mat-error>
+
+  <button mat-raised-button color="primary" type="Submit">Update profile</button>
+</form>
+

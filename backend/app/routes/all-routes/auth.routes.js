@@ -1,7 +1,6 @@
 const {
     Router,
 } = require('express');
-
 const AuthController = require('../../controllers/auth.controller');
 
 const init = (app, data) => {

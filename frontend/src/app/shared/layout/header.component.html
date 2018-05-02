@@ -1,15 +1,22 @@
 <mat-toolbar color="primary" role="header">
-    <span>TicketSys42</span>
+  <p class="nav_link" routerLink="/home">TicketSys42</p>
+  <div class="auth-buttons" fxLayout="row" *ngIf="isAuth">
+    <p class="nav_link" [routerLink]="['/user', user.username]">Profile</p>
+    <p class="nav_link" routerLink="/home">Projects</p>
+    <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink="/home">Company emplyees</p>
+    <p class="nav_link" routerLink="/home">
+      <mat-icon>notifications</mat-icon>
+    </p>
+  </div>
+  <!-- This fills the remaining space of the current row -->
+  <span class="example-fill-remaining-space"></span>
 
-    <!-- This fills the remaining space of the current row -->
-    <span class="example-fill-remaining-space"></span>
+  <button (click)="isAuth" style="margin-right: 30px">Auth</button>
+  <button mat-button routerLink="/login" *ngIf="!isAuth">Login</button>
+  <button mat-button routerLink="/register" *ngIf="!isAuth">Register</button>
 
-    <mat-menu #appMenu="matMenu">
-        <button mat-menu-item>Sign In</button>
-        <button mat-menu-item>Register</button>
-    </mat-menu>
-
-    <button mat-icon-button [matMenuTriggerFor]="appMenu">
-        <mat-icon>menu</mat-icon>
-    </button>
+  <div fxLayout="row" *ngIf="isAuth">
+    <p class="nav_link" [routerLink]="['/user', user.username]">Welcome, {{user?.username}}</p>
+    <button mat-button (click)="logout()">Logout</button>
+  </div>
 </mat-toolbar>

@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
         title: {
             type: DataTypes.STRING,
             allowNull: false,
-        }
+            unique: true,
+        },
     }, {});
     Companies.associate = function (models) {
         // associations can be defined here
@@ -68,9 +69,6 @@ module.exports = (sequelize, DataTypes) => {
             through: 'usersProjects',
         });
         Users.belongsTo(Companies, {
-            foreignKey: {
-                allowNull: false
-            },
             onDelete: 'CASCADE'
         });
         Comments.belongsTo(Users, {

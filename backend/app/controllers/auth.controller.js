@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
 const moment = require('moment');
+const Sequelize = require('sequelize');
+const op = Sequelize.Op;
 
 const config = require('../config/app.config');
 
@@ -11,17 +13,18 @@ class AuthController {
 
     login() {
         return async (req, res) => {
-            console.log(req);
             const user = await this.data.users.getOneByCriteria({
                 username: req.body.username,
             });
-            console.log(user);
             if (user) {
+                const company = await this.data.companies.getOneByCriteria({
+                    id: user.CompanyId,
+                });
                 bcrypt.compare(req.body.password, user.password,
                     (err, response) => {
                         if (err) {
                             res.status(401).send({
-                                err: 'Incorrect username or password',
+                                err: 'Unauthorized!',
                             });
                         }
 
@@ -38,18 +41,27 @@ class AuthController {
                                 role: user.role,
                             };
 
+                            payload.company = company.title;
+
+                            if (user.nickname) {
+                                payload.nickname = user.nickname;
+                            }
+
                             const secret = config.JWT_SECRET;
 
                             const token = jwt.encode(payload, secret);
-
                             res.status(200).send({
                                 token,
+                            });
+                        } else {
+                            res.status(401).send({
+                                err: 'Wrong username or password.',
                             });
                         }
                     });
             } else {
                 res.status(401).send({
-                    err: 'Unsuccessful login.',
+                    err: 'Wrong username or password.',
                 });
             }
         };
@@ -59,14 +71,44 @@ class AuthController {
         return async (req, res) => {
             const userToCreate = req.body;
             userToCreate.role = 'User';
-            userToCreate.CompanyId = 1;
 
-            const user = await this.data.users.findOrCreate(userToCreate);
+            // Defensive programming
+            if (userToCreate.company) {
+                const company = await this.data.companies.getOneByCriteria({
+                    title: userToCreate.company,
+                });
 
-            // check if user is new or already exists
-            const isNew = user[user.length - 1];
+                if (company) {
+                    return res.status(401).send({
+                        err: 'Company name already exists.',
+                    });
+                }
+            }
 
-            if (isNew) {
+            // Defensive programming
+            let user = await this.data.users.getOneByCriteria({
+                [op.or]: [{
+                        username: userToCreate.username,
+                    },
+                    {
+                        email: userToCreate.email,
+                    },
+                ],
+            });
+
+            // Actually creating user and? company
+            if (!user) {
+                let company = null;
+                if (userToCreate.company) {
+                    company = await this.data.companies.create({
+                        title: userToCreate.company,
+                    });
+                    delete userToCreate.company;
+                    userToCreate.CompanyId = company.id;
+                }
+
+                user = await this.data.users.create(userToCreate);
+
                 const expire = moment(new Date())
                     .add(config.JWT_EXPIRE_TIME, 'seconds').unix();
 
@@ -78,6 +120,14 @@ class AuthController {
                     iss: config.JWT_ISS,
                     role: user.role,
                 };
+
+                if (company) {
+                    payload.company = company.title;
+                }
+
+                if (user.nickname) {
+                    payload.nickname = user.nickname;
+                }
 
                 const secret = config.JWT_SECRET;
 
@@ -91,6 +141,7 @@ class AuthController {
                     err: 'Username or email already exists.',
                 });
             }
+            return null;
         };
     }
 }

@@ -13,10 +13,7 @@ export class TicketsService {
   constructor(private httpClient: HttpClient, private appConfig: AppConfig) { }
 
   getAll(): Observable<Ticket[]> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}`).map(x => <Ticket[]>(x));
+    return this.httpClient.get<Ticket[]>(`${this.appConfig.apiUrl}`);
   }
 
-  getByBrand(brand: string): Observable<Ticket> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}/phones/${brand}`).map(x => <Ticket>x);
-  }
 }

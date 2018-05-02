@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import {FooterComponent, HeaderComponent} from "./layout";
-import {MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatToolbarModule, MatSelectModule, MatFormFieldModule, MatInputModule} from "@angular/material";
+import {MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatToolbarModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatTabsModule, MatTableModule, MatCheckboxModule, MatGridListModule} from "@angular/material";
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -16,6 +16,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatMenuModule,
         MatSelectModule,
         MatFormFieldModule,
+        MatCheckboxModule,
+        MatTabsModule,
+        MatTableModule,
+        MatGridListModule,
         MatInputModule,
         HttpClientModule,
         MatButtonModule,
@@ -36,7 +40,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatButtonModule,
         MatIconModule,
         MatToolbarModule,
+        MatCheckboxModule,
+        MatGridListModule,
+        MatTabsModule,
         MatMenuModule,
+        MatTableModule,
         MatSelectModule,
         MatFormFieldModule,
         MatInputModule,

@@ -10,10 +10,10 @@ import { AuthModule } from './auth/auth.module';
 import { AppConfig } from './config/app.config';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
-import {
-    SharedModule,
-} from './shared';
+import { SharedModule } from './shared';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { GuardsModule } from './route-guards/guards.module';
+import { ProfilePageModule } from './profile-page/profile-page.module';
 
 export function tokenGetter() {
     return localStorage.getItem('access_token');
@@ -26,12 +26,14 @@ export function tokenGetter() {
   ],
   imports: [
     CoreModule,
+    GuardsModule,
     SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     AuthModule,
+    ProfilePageModule,
     ToastrModule.forRoot(),
     JwtModule.forRoot({
         config: {

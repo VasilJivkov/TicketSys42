@@ -4,6 +4,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AuthService } from '../../core/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { AccessToken } from '../../models/users/AccessToken';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private auth: AuthService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private router: Router) { }
 
   ngOnInit(): void{
     this.loginForm = this.formBuilder.group({
@@ -34,14 +36,20 @@ export class LoginComponent implements OnInit {
 
   login(loginForm: NgForm): void{
     if (loginForm.valid) {
-        this.auth.login(loginForm.value).subscribe((res: AccessToken) => {
+        this.auth.login(loginForm.value).subscribe((
+          res: AccessToken) => {
             localStorage.setItem('access_token', res.token);
             this.credentialsError = null;
+            this.auth.getUser();
             this.toastr.success(`Welcome, ${this.loginForm.get('username').value}!`);
+            this.router.navigate(['/home'])
         },
             (err: HttpErrorResponse) => {
-                this.credentialsError = err.error.err;
-            });
+              this.credentialsError = err.error.err;
+              this.auth.getUser();
+          }, () => {
+            console.log('completed')}); 
+            
     }
   }
 

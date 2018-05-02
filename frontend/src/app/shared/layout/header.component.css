@@ -2,3 +2,16 @@
     /* This fills the remaining space, by using flexbox. */
     flex: 1 1 auto;
 }
+
+.nav_link:hover {
+  cursor: pointer;
+}
+
+.auth-buttons {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.auth-buttons p{
+  margin-left: 10px;
+}

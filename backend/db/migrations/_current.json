@@ -55,6 +55,7 @@
                 },
                 "title": {
                     "allowNull": false,
+                    "unique": true,
                     "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
@@ -336,7 +337,7 @@
                     "seqType": "Sequelize.DATE"
                 },
                 "CompanyId": {
-                    "allowNull": false,
+                    "allowNull": true,
                     "references": {
                         "model": "Companies",
                         "key": "id"

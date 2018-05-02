@@ -1,0 +1,26 @@
+<div class="profile-page-container">
+  <div fxLayout="row wrap" fxLayoutGap="15px" class="form-container" *ngIf="requestedUser === user.username">
+  
+    <div fxFlex="30%" class="change-password-wrapper">
+      <app-change-password [requestedUser]="requestedUser"></app-change-password>
+    </div>
+  
+    <div fxFlex="65%" class="update-details-wrapper">
+      <app-update-user-details [requestedUser]="requestedUser"></app-update-user-details>
+    </div>
+  
+  </div>
+
+  <div *ngIf="requestedUser !== user.username">
+    <app-user-details></app-user-details>
+  </div>
+
+  <mat-tab-group>
+    <mat-tab label="Issued tickets">
+      <app-user-issued-tickets [issuedTickets]="issuedTickets"></app-user-issued-tickets>
+    </mat-tab>
+    <mat-tab label="Received tickets">Received tickets</mat-tab>
+    <mat-tab label="My projects">My projects</mat-tab>
+    <mat-tab label="Project invitations">Project invitations</mat-tab>
+  </mat-tab-group>
+</div>

@@ -14,6 +14,6 @@ export class HomeComponent implements OnInit {
     constructor(private ticketsServices: TicketsService) { }
 
   ngOnInit() {
-      this.ticketsServices.getAll().subscribe(data => this.tickets = data);
+      this.ticketsServices.getAll().subscribe((data: Ticket[]) => {this.tickets = data});
   }
 }
