@@ -1,15 +1,24 @@
 <div>
-  <h3>Update personal details</h3>
+  <h3>Personal details</h3>
+  <div class="personal-info-container" fxLayout="row wrap" fxLayoutGap="15px">
+    <div>
+      <label>E-mail:</label>
+      <p>{{userInfo?.email}}</p>
+    </div>
 
-  <label>E-mail:</label>
-  <p>{{userInfo?.email}}</p>
+    <div>
+      <label>Nickname:</label>
+      <p>{{userInfo?.nickname}}</p>
+    </div>
 
-  <label>Nickname:</label>
-  <p>{{userInfo?.nickname}}</p>
+    <div>
+      <label>First Name:</label>
+      <p>{{userInfo?.firstName}}</p>
+    </div>
 
-  <label>First Name:</label>
-  <p>{{userInfo?.firstName}}</p>
-
-  <label>last Name:</label>
-  <p>{{userInfo?.lastName}}</p>
-</div>>
+    <div>
+      <label>last Name:</label>
+      <p>{{userInfo?.lastName}}</p>
+    </div>
+  </div>
+</div>

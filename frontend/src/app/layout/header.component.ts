@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../core/auth.service';
 import { Router } from '@angular/router';
-import { DecodedToken } from '../../models/users/DecodedToken';
+import { DecodedToken } from '../models/users/DecodedToken';
+import { AuthService } from '../core/auth.service';
 
 @Component({
     selector: 'app-layout-header',
@@ -18,11 +18,6 @@ export class HeaderComponent implements OnInit {
       this.auth.user.subscribe((user: DecodedToken) => this.user = user);
       this.auth.isAuth.subscribe(x=>this.isAuth = x);
   }
-
-  // isAuth(): boolean {
-  //   console.log(this.user);
-  //   return this.auth.isAuthenticated();
-  // }
 
   logout(): void {
       this.auth.logout();

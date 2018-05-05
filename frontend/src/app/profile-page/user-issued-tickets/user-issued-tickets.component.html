@@ -1,3 +1,57 @@
-<div *ngFor="let ticket of issuedTickets">
-  <p>{{ticket.title}}</p>
+<div [ngClass]="'searchFilter'" *ngIf="issuedTickets.length > 10">
+  <mat-form-field>
+    <input matInput (keyup)="searchTable($event.target.value)" placeholder="Search the table">
+  </mat-form-field>
+</div>
+
+<mat-table #table [dataSource]="dataSource" matSort matSortActive="name">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'idContainer'"> Id </mat-header-cell>
+    <mat-cell *matCellDef="let ticket; let i = index" [ngClass]="'idContainer'"> {{i + 1}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameContainer'"> Title </mat-header-cell>
+    <mat-cell *matCellDef="let ticket" [ngClass]="'nameContainer'"> {{ticket.title}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'valueContainer'"> Description </mat-header-cell>
+    <mat-cell *matCellDef="let ticket" [ngClass]="'valueContainer'"> {{ticket.description}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="deadline">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'booleanContainer'"> deadline </mat-header-cell>
+    <mat-cell *matCellDef="let ticket" [appApproachingDeadline]="ticket.deadline" [ngClass]="'booleanContainer'"> {{ticket.deadline | date: "medium"}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="createdAt">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Created </mat-header-cell>
+    <mat-cell *matCellDef="let ticket" [ngClass]="'createdContainer'"> {{ticket.createdAt | date: "fullDate"}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Status </mat-header-cell>
+    <mat-cell *matCellDef="let ticket" [ngClass]="'createdContainer'"> {{ticket.status}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="project">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Project </mat-header-cell>
+    <mat-cell *matCellDef="let ticket" [ngClass]="'createdContainer'"> {{ticket.project}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="assignee">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Assignee </mat-header-cell>
+    <mat-cell *matCellDef="let ticket" [ngClass]="'createdContainer'"> {{ticket.assignee}} </mat-cell>
+  </ng-container>
+
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<div [ngClass]="'tableFooter'" *ngIf="dataSource">
+  <div [ngClass]="'paginator'">
+    <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" *ngIf="issuedTickets.length > 10">
+    </mat-paginator>
+  </div>
 </div>

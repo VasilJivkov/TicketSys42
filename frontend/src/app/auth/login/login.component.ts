@@ -5,6 +5,7 @@ import { AuthService } from '../../core/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { AccessToken } from '../../models/users/AccessToken';
 import { Router } from '@angular/router';
+import { DecodedToken } from '../../models/users/DecodedToken';
 
 
 @Component({
@@ -18,12 +19,16 @@ export class LoginComponent implements OnInit {
   private password: AbstractControl;
   private credentialsError: string = null;
 
+  private user: DecodedToken;
+
   constructor(private formBuilder: FormBuilder,
     private auth: AuthService,
     private toastr: ToastrService,
     private router: Router) { }
 
   ngOnInit(): void{
+    this.auth.user.subscribe((user: DecodedToken) => this.user = user);
+
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
@@ -42,13 +47,13 @@ export class LoginComponent implements OnInit {
             this.credentialsError = null;
             this.auth.getUser();
             this.toastr.success(`Welcome, ${this.loginForm.get('username').value}!`);
-            this.router.navigate(['/home'])
+            this.router.navigate(['/', this.user.company])
         },
             (err: HttpErrorResponse) => {
               this.credentialsError = err.error.err;
               this.auth.getUser();
           }, () => {
-            console.log('completed')}); 
+            console.log('Login successful.')}); 
             
     }
   }

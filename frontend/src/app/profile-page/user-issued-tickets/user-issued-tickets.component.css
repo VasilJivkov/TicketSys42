@@ -1,0 +1,10 @@
+ng-container {
+  margin-right: 1000px;
+  padding: 5px;
+  flex: 0 0 auto;
+}
+
+mat-cell {
+  padding: 5px;
+}
+

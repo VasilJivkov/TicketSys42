@@ -41,7 +41,9 @@ class AuthController {
                                 role: user.role,
                             };
 
-                            payload.company = company.title;
+                            if (company) {
+                                payload.company = company.title;
+                            }
 
                             if (user.nickname) {
                                 payload.nickname = user.nickname;
@@ -69,20 +71,23 @@ class AuthController {
 
     register() {
         return async (req, res) => {
-            const userToCreate = req.body;
+            const userToCreate = req.body.user;
+            const isNewCompany = req.body.newCompany;
             userToCreate.role = 'User';
 
             // Defensive programming
-            if (userToCreate.company) {
-                const company = await this.data.companies.getOneByCriteria({
-                    title: userToCreate.company,
-                });
+            let company = await this.data.companies.getOneByCriteria({
+                title: userToCreate.company,
+            });
 
-                if (company) {
-                    return res.status(401).send({
-                        err: 'Company name already exists.',
-                    });
-                }
+            if (isNewCompany && company) {
+                return res.status(401).send({
+                    err: 'Company name already exists.',
+                });
+            } else if (!isNewCompany && !company) {
+                return res.status(401).send({
+                    err: 'Company that you are trying to join does not exist.',
+                });
             }
 
             // Defensive programming
@@ -98,12 +103,13 @@ class AuthController {
 
             // Actually creating user and? company
             if (!user) {
-                let company = null;
-                if (userToCreate.company) {
+                if (isNewCompany) {
                     company = await this.data.companies.create({
                         title: userToCreate.company,
                     });
                     delete userToCreate.company;
+                    userToCreate.CompanyId = company.id;
+                } else {
                     userToCreate.CompanyId = company.id;
                 }
 
@@ -142,6 +148,16 @@ class AuthController {
                 });
             }
             return null;
+        };
+    }
+
+    getCompanies() {
+        return async (req, res) => {
+            const companies = await this.data.companies.getAll()
+                .map((company) => company.dataValues.title);
+            res.status(200).send({
+                companies,
+            });
         };
     }
 }

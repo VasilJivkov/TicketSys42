@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { AppConfig } from '../config/app.config';
 import { UserPageService } from './user-page.service';
 import { UserDetailsResolver } from './user.details.resolver';
+import { CompanyService } from './company.service';
+import { EmployeesService } from './employees.service';
 
 
 @NgModule({
@@ -12,9 +14,11 @@ import { UserDetailsResolver } from './user.details.resolver';
   providers: [
     AppConfig,
     AuthService,
+    CompanyService,
     StatsService,
     UserPageService,
     UserDetailsResolver,
+    EmployeesService,
     // { provide: TicketsService, useClass: TicketsService },
     // { provide: AuthService, useClass: AuthService },
   ]

@@ -5,6 +5,7 @@ import { AuthGuardService } from './auth-guard.service';
 import { RoleGuardService } from './role-guard.service';
 import { UserPageGuardService } from './user-page-guard.service';
 import { NotAuthGuardService } from './not-auth-guard.service';
+import { CompanyPageGuardService } from './company-page-guard.service';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { NotAuthGuardService } from './not-auth-guard.service';
     RoleGuardService,
     UserPageGuardService,
     NotAuthGuardService,
+    CompanyPageGuardService,
     // { provide: TicketsService, useClass: TicketsService },
     // { provide: AuthService, useClass: AuthService },
   ]

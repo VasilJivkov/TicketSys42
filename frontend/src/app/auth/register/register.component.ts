@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { AccessToken } from '../../models/users/AccessToken';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { CompanyTitles } from '../../models/responses/company-titles';
+import { CompanyService } from '../../core/company.service';
 
 @Component({
   selector: 'app-register',
@@ -22,14 +24,20 @@ export class RegisterComponent implements OnInit {
   private lastName: AbstractControl;
   private registerError: string = null;
 
+  private newCompany: boolean = false;
   private company: AbstractControl;
+
+  private companies: string[]
 
   constructor(private formBuilder: FormBuilder,
     private auth: AuthService,
     private toastr: ToastrService,
-    private router: Router) {}
+    private router: Router,
+    private companyService: CompanyService) {}
 
   ngOnInit() {
+    this.companyService.getCompanies().subscribe((res: CompanyTitles) => this.companies = res.companies);
+
     this.registerForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(24)]],
       password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
@@ -38,9 +46,10 @@ export class RegisterComponent implements OnInit {
       nickname: ['', [Validators.minLength(3), Validators.maxLength(30)]],
       firstName: ['', [Validators.minLength(3), Validators.maxLength(30)]],
       lastName: ['', [Validators.minLength(3), Validators.maxLength(30)]],
+      company: ['', [Validators.required]],
     }, {validator: this.PasswordMatch});
 
-    this.company = this.formBuilder.control('', [Validators.required]);
+    // this.company = this.formBuilder.control('', [Validators.required]); // „-- dynamically adding/removing the input
 
     this.username = this.registerForm.get('username');
     this.password = this.registerForm.get('password');
@@ -49,6 +58,7 @@ export class RegisterComponent implements OnInit {
     this.nickname = this.registerForm.get('nickname');
     this.firstName = this.registerForm.get('firstName');
     this.lastName = this.registerForm.get('lastName');
+    this.company = this.registerForm.get('company');
     
   }
 
@@ -56,7 +66,7 @@ export class RegisterComponent implements OnInit {
       if (registerForm.valid) {
           const newUser = registerForm.value;
           delete newUser.rePassword;
-          this.auth.register(registerForm.value).subscribe((res: AccessToken) => {
+          this.auth.register(registerForm.value, this.newCompany).subscribe((res: AccessToken) => {
               localStorage.setItem('access_token', res.token);
               this.registerError = null;
               this.auth.getUser();
@@ -87,10 +97,16 @@ export class RegisterComponent implements OnInit {
   }
 
   private toggleCompany() {
-    if(this.registerForm.get('company')){
-      this.registerForm.removeControl('company')
-    }else{
-    this.registerForm.setControl('company', this.company);
+    // if(this.registerForm.get('company')){
+    //   this.registerForm.removeControl('company')
+    // }else{
+    // this.registerForm.setControl('company', this.company);
+    // }
+    if (this.newCompany) {
+      this.newCompany = false;
+    } else {
+      this.newCompany = true;
+      this.registerForm.get('company').reset();
     }
   }
 

@@ -11,6 +11,7 @@ const init = (app, data) => {
 
     router
         .post('/login', controller.login())
+        .get('/register', controller.getCompanies())
         .post('/register', controller.register());
 };
 

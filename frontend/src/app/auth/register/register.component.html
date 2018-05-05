@@ -39,9 +39,19 @@
       <br>
       <mat-checkbox (click)="toggleCompany()">I want to create a new company!</mat-checkbox>
       <br>
-      <mat-form-field *ngIf="registerForm.get('company')">
-        <input *ngIf="registerForm.get('company')" matInput formControlName="company" type="text" placeholder="Company name">
+      <!-- <mat-form-field *ngIf="registerForm.get('company')"> -->
+      <mat-form-field *ngIf="newCompany">
+        <!-- <input *ngIf="registerForm.get('company')" matInput formControlName="company" type="text" placeholder="Company name"> -->
+        <input matInput formControlName="company" type="text" placeholder="Company name">
         <mat-error>{{validate(company)}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="!newCompany">
+        <mat-select placeholder="Select a company" formControlName="company">
+          <mat-option *ngFor="let company of companies" [value]="company">
+            {{company}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-error>{{registerError}}</mat-error>

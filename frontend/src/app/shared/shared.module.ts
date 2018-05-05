@@ -3,58 +3,21 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import {FooterComponent, HeaderComponent} from "./layout";
-import {MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatToolbarModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatTabsModule, MatTableModule, MatCheckboxModule, MatGridListModule} from "@angular/material";
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ApproachingDeadlineDirective } from './approaching-deadline.directive';
 
-
+const modules = [
+  CommonModule,
+  FormsModule,
+  ReactiveFormsModule,
+  HttpClientModule,
+  RouterModule,
+  FlexLayoutModule
+];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatCardModule,
-        MatMenuModule,
-        MatSelectModule,
-        MatFormFieldModule,
-        MatCheckboxModule,
-        MatTabsModule,
-        MatTableModule,
-        MatGridListModule,
-        MatInputModule,
-        HttpClientModule,
-        MatButtonModule,
-        MatIconModule,
-        MatToolbarModule,
-        RouterModule,
-        FlexLayoutModule,
-    ],
-    declarations: [
-        HeaderComponent,
-        FooterComponent,
-    ],
-    exports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatCheckboxModule,
-        MatGridListModule,
-        MatTabsModule,
-        MatMenuModule,
-        MatTableModule,
-        MatSelectModule,
-        MatFormFieldModule,
-        MatInputModule,
-        HttpClientModule,
-        RouterModule,
-        HeaderComponent,
-        FooterComponent,
-        FlexLayoutModule
-    ]
+  declarations: [ApproachingDeadlineDirective],
+  imports: [...modules],
+  exports: [...modules, ApproachingDeadlineDirective],
 })
 export class SharedModule {}

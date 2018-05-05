@@ -65,9 +65,15 @@ module.exports = (sequelize, DataTypes) => {
         Notifications.belongsToMany(Users, {
             through: 'usersNotifications',
         });
+        Users.belongsToMany(Notifications, {
+          through: 'usersNotifications',
+        });
         Users.belongsToMany(Projects, {
             through: 'usersProjects',
         });
+        Projects.belongsToMany(Users, {
+          through: 'usersProjects',
+        })
         Users.belongsTo(Companies, {
             onDelete: 'CASCADE'
         });

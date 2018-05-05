@@ -3,21 +3,17 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { AppConfig } from '../config/app.config';
-import {CompanyInfo} from "../models/companyInfo";
+import { CompanyDetails } from '../models/company.details';
 
 @Injectable()
 export class CompanyService {
-  constructor(private httpClient: HttpClient, private appConfig: AppConfig) { }
+  constructor(private http: HttpClient, private appConfig: AppConfig) { }
 
-  getById(ID: number): Observable<CompanyInfo> {
-    console.log(ID);
-    let response =  this.httpClient.get(`${this.appConfig.apiUrl}/company/${ID}`).map(x => <CompanyInfo>(x));
-    return response;
+  getByCompanyName(title: string): Observable<CompanyDetails> {
+    return this.http.get(`${this.appConfig.apiUrl}/${title}`).map(x => <CompanyDetails>(x));
   }
 
-  getAll(): Observable<CompanyInfo[]> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}/company`).map(x => <CompanyInfo[]>(x));
+  getCompanies(): Observable<Object> {
+    return this.http.get(`${this.appConfig.apiUrl}/register`);
   }
-
-
 }

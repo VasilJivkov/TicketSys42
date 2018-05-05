@@ -1,0 +1,50 @@
+<div class="createTicketForm-container">
+  <form [formGroup]="createTicketForm" (ngSubmit)="createTicket(createTicketForm)">
+    <div class="form-container">
+      <mat-form-field>
+        <input matInput type="text" formControlName='title' placeholder="title">
+        <mat-error>{{validate(title)}}</mat-error>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input matInput type="text" formControlName='description' placeholder="description">
+        <mat-error>{{validate(description)}}</mat-error>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="myDatepicker" formControlName='deadline' placeholder="Pick deadline">
+        <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #myDatepicker></mat-datepicker>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <mat-select placeholder="Select a project" (change)="onProjectChange($event)" formControlName="ProjectId">
+          <mat-option *ngFor="let project of projects" [value]="project.id">
+            {{project.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <mat-select *ngIf="index >= 0" placeholder="Select assignee" formControlName="assigneeId">
+          <mat-option *ngFor="let assignee of listedUsers" [value]="assignee.id">
+            {{assignee.username}}
+          </mat-option>
+        </mat-select>
+
+        <mat-select *ngIf="index === -1" placeholder="You must choose a project"></mat-select>
+      </mat-form-field>
+      <br>
+
+      <mat-error>{{createTicketError}}</mat-error>
+      <br>
+      <div>
+        <input type="Submit" value="Create ticket">
+      </div>
+    </div>
+  </form>
+</div>

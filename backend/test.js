@@ -1,20 +1,18 @@
 const data = require('./app/data/data');
 
 const run = async () => {
-  const user = await data.users.getOneByCriteria({ id: 2 });
-  const newDetails = {
-    password: 'pesho12',
-  }
-  user.updateAttributes(newDetails);
-  // user.updateAttributes(data)
-    // .on('success', function (project) {
-    //   // Check if record exists in db
-    //   if (project) {
-    //     project.updateAttributes({
-    //       title: 'a very different title now'
-    //     })
-    //       .success(function () { })
-    //   }
-    // })
+    const user = await data.users.getOneByCriteria({
+        id: 1
+    });
+
+    let projects = await user.getProjects();
+
+    const usersByProjects = await Promise.all(projects.map(async (project) => {
+        const projectUsers = await project.getUsers()
+            .map((projectUser) => projectUser.dataValues.username);
+        return projectUsers;
+    }));
+
+    projects = projects.map((project) => project.dataValues.title);
 }
 run();

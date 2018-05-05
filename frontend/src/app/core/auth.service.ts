@@ -19,8 +19,9 @@ export class AuthService {
     private http: HttpClient,
     private jwtService: JwtHelperService,
     private router: Router) { }
-  register(user: User): Observable<Object> {
-    return this.http.post(`${this.appConfig.apiUrl}/register`, user);
+
+  register(user: User, newCompany: boolean): Observable<Object> {
+    return this.http.post(`${this.appConfig.apiUrl}/register`, {user, newCompany});
   }
 
   login(user: User): Observable<Object> {

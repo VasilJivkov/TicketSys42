@@ -1,9 +1,12 @@
 <mat-toolbar color="primary" role="header">
-  <p class="nav_link" routerLink="/home">TicketSys42</p>
+  <p class="nav_link" routerLink="/home" *ngIf="!isAuth">Home</p>
+
   <div class="auth-buttons" fxLayout="row" *ngIf="isAuth">
+    <p class="nav_link" routerLink='company/{{user.company}}'>{{user.company}}</p>
     <p class="nav_link" [routerLink]="['/user', user.username]">Profile</p>
     <p class="nav_link" routerLink="/home">Projects</p>
-    <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink="/home">Company emplyees</p>
+    <p class="nav_link" routerLink="/createTicket">Create ticket</p>
+    <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/employees'>Company employees</p>
     <p class="nav_link" routerLink="/home">
       <mat-icon>notifications</mat-icon>
     </p>
@@ -12,11 +15,11 @@
   <span class="example-fill-remaining-space"></span>
 
   <button (click)="isAuth" style="margin-right: 30px">Auth</button>
-  <button mat-button routerLink="/login" *ngIf="!isAuth">Login</button>
-  <button mat-button routerLink="/register" *ngIf="!isAuth">Register</button>
+  <button mat-button routerLink="/auth/login" *ngIf="!isAuth">Login</button>
+  <button mat-button routerLink="/auth/register" *ngIf="!isAuth">Register</button>
 
   <div fxLayout="row" *ngIf="isAuth">
-    <p class="nav_link" [routerLink]="['/user', user.username]">Welcome, {{user?.username}}</p>
+    <p class="nav_link" [routerLink]="['/user', user.username]">{{user?.username | welcomeName}}</p>
     <button mat-button (click)="logout()">Logout</button>
   </div>
 </mat-toolbar>

@@ -55,17 +55,50 @@ class Controller {
                 const issuedTickets =
                     await this.data.tickets.getAllByCriteria({
                         requesterId: user.id,
-                    }).map((ticket) => ticket.dataValues);
+                    }).map(async (ticket) => {
+                        const projectId = ticket.dataValues.ProjectId;
+                        const project =
+                            await this.data.projects.getById(projectId);
+                        ticket.dataValues.project = project.title;
+
+                        const assigneeId = ticket.dataValues.assigneeId;
+                        const assignee =
+                            await this.data.users.getById(assigneeId);
+                        ticket.dataValues.assignee = assignee.username;
+
+                        return ticket.dataValues;
+                    });
 
                 const receivedTickets =
                     await this.data.tickets.getAllByCriteria({
                         assigneeId: user.id,
-                    }).map((ticket) => ticket.dataValues);
+                    }).map(async (ticket) => {
+                        const projectId = ticket.dataValues.ProjectId;
+                        const project =
+                            await this.data.projects.getById(projectId);
+                        ticket.dataValues.project = project.title;
+
+                        const requesterId = ticket.dataValues.requesterId;
+                        const requester =
+                            await this.data.users.getById(requesterId);
+                        ticket.dataValues.requester = requester.username;
+
+                        return ticket.dataValues;
+                    });
+
+                const userProjects = await user.getProjects()
+                    .map(async (project) => {
+                        const ownerId = project.dataValues.ownerId;
+                        const owner = await this.data.users.getById(ownerId);
+                        project.dataValues.owner = owner.username;
+                        return project.dataValues;
+                    });
 
                 res.status(200).send({
                     userInfo,
                     issuedTickets,
                     receivedTickets,
+                    userProjects,
                 });
             } else {
                 res.status(401).send({
@@ -102,6 +135,117 @@ class Controller {
             } else {
                 res.status(401).send({
                     err: 'No user with that username found.',
+                });
+            }
+        };
+    }
+
+    getCompanyPage() {
+        return async (req, res) => {
+            const companyTitle = req.params.company;
+
+            let companyInfo =
+                await this.data.companies.getOneByCriteria({
+                    title: companyTitle,
+                });
+
+            companyInfo = companyInfo.dataValues;
+
+            res.status(200).send({
+                companyInfo,
+            });
+        };
+    }
+
+    getCompanyEmployees() {
+        return async (req, res) => {
+            const companyTitle = req.params.company;
+
+            const company = await this.data.companies.getOneByCriteria({
+                title: companyTitle,
+            });
+
+            const employees = await this.data.users.getAllByCriteria({
+                CompanyId: company.id,
+            }).map((employee) => {
+                delete employee.dataValues.password;
+                return employee.dataValues;
+            });
+
+            res.status(200).send({
+                employees,
+            });
+        };
+    }
+
+    getHomePageData() {
+        return async (req, res) => {
+            const tickets = await this.data.tickets.getAll();
+            const companies = await this.data.companies.getAll();
+
+            const ticketsLength = tickets.length;
+            const companieslenght = companies.length;
+
+            res.status(200).send({
+                ticketsLength,
+                companieslenght,
+            });
+        };
+    }
+
+    createTicketPage() {
+        return async (req, res) => {
+            const username = req.query.username;
+
+            const user = await this.data.users.getOneByCriteria({
+                username: username,
+            });
+            if (user) {
+                let projects = await user.getProjects();
+
+                const usersByProjects =
+                    await Promise.all(projects.map(async (project) => {
+                        const projectUsers = await project.getUsers()
+                            .map((projectUser) => projectUser.dataValues)
+                            .filter((projectUser) =>
+                                projectUser.username !== user.username);
+
+                        return projectUsers;
+                    }));
+
+                projects = projects.map((project, index) => {
+                    project.dataValues.index = index;
+                    return project.dataValues;
+                });
+
+                res.status(200).send({
+                    projects,
+                    usersByProjects,
+                });
+            } else {
+                res.status(401).send({
+                    err: 'No user with that username found.',
+                });
+            }
+        };
+    }
+
+    createTicket() {
+        return async (req, res) => {
+            const ticketToCreate = req.body.ticket;
+            const user = req.body.user;
+
+            ticketToCreate.requesterId = user.sub;
+            ticketToCreate.deadline = new Date(ticketToCreate.deadline);
+            ticketToCreate.priority = 1;
+            ticketToCreate.status = 'IN PROGRESS';
+
+            try {
+                await this.data.tickets.create(ticketToCreate);
+                res.status(201);
+            } catch (error) {
+                res.status(403).send({
+                    err: 'There was a problem creating your ticket.',
                 });
             }
         };

@@ -6,7 +6,7 @@ import {StatsService} from "../core/stats.service";
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  providers: [ StatsService]
+  providers: [ StatsService ]
 })
 
 @Injectable()
