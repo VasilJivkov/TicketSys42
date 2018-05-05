@@ -4,7 +4,7 @@
   </mat-form-field>
 </div>
 
-<mat-table #table [dataSource]="dataSource" matSort matSortActive="name">
+<mat-table #table [dataSource]="dataSource" matSort matSortActive="deadline">
   <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'idContainer'"> Id </mat-header-cell>
     <mat-cell *matCellDef="let ticket; let i = index" [ngClass]="'idContainer'"> {{i + 1}} </mat-cell>
@@ -22,7 +22,7 @@
 
   <ng-container matColumnDef="deadline">
     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'booleanContainer'"> deadline </mat-header-cell>
-    <mat-cell *matCellDef="let ticket" [ngClass]="'booleanContainer'"> {{ticket.deadline | date: "medium"}}</mat-cell>
+    <mat-cell *matCellDef="let ticket" [appApproachingDeadline]="ticket.deadline" [ngClass]="'booleanContainer'"> {{ticket.deadline | date: "medium"}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="createdAt">

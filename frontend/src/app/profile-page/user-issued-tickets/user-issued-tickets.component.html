@@ -4,7 +4,7 @@
   </mat-form-field>
 </div>
 
-<mat-table #table [dataSource]="dataSource" matSort matSortActive="name">
+<mat-table #table [dataSource]="dataSource" matSort matSortActive="deadline">
   <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'idContainer'"> Id </mat-header-cell>
     <mat-cell *matCellDef="let ticket; let i = index" [ngClass]="'idContainer'"> {{i + 1}} </mat-cell>

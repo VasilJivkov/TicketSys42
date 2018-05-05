@@ -16,7 +16,7 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [ApproachingDeadlineDirective],
+  declarations: [ApproachingDeadlineDirective ],
   imports: [...modules],
   exports: [...modules, ApproachingDeadlineDirective],
 })

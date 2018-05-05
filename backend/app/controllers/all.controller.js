@@ -242,7 +242,9 @@ class Controller {
 
             try {
                 await this.data.tickets.create(ticketToCreate);
-                res.status(201);
+                res.status(201).send({
+                  success: true,
+                });
             } catch (error) {
                 res.status(403).send({
                     err: 'There was a problem creating your ticket.',

@@ -20,7 +20,7 @@ export class UserIssuedTicketsComponent implements OnInit {
     this.issuedTickets = this.acRoute.snapshot.data['object'].issuedTickets;
     this.dataSource = new MatTableDataSource(this.issuedTickets);
     this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+    setTimeout(() => this.dataSource.paginator = this.paginator);
   }
 
   public searchTable(searchValue: string): void {
