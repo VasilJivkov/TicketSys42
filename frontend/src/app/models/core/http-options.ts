@@ -1,15 +1,15 @@
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 export class HttpOptions {
-    body?: any;
-    headers?: HttpHeaders | {
+    public body?: any;
+    public headers?: HttpHeaders | {
         [header: string]: string | string[];
     };
-    observe?;
-    params?: HttpParams | {
+    public observe?;
+    public params?: HttpParams | {
         [param: string]: string | string[];
     };
-    reportProgress?: boolean;
-    responseType: 'json';
-    withCredentials?: boolean;
+    public reportProgress?: boolean;
+    public responseType: 'json';
+    public withCredentials?: boolean;
 }

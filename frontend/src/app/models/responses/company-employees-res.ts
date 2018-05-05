@@ -1,5 +1,5 @@
-import { UserInfo } from "../users/user-info";
+import { IUserInfo } from '../users/user-info';
 
-export interface CompanyEmployeesResponse {
-    employees: UserInfo[];
+export interface ICompanyEmployeesResponse {
+    employees: IUserInfo[];
 }

@@ -1,6 +1,5 @@
-export interface CompanyInfo {
- id : number;
+export interface ICompanyInfo {
+ id: number;
 
  title: string;
-
 }

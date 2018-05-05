@@ -1,9 +1,9 @@
 export class AppConfig {
-    readonly apiUrl: string;
-    readonly jwt_issuer: string;
+  public readonly apiUrl: string;
+  public readonly jwtIssuer: string;
 
-    constructor() {
-        this.apiUrl = 'http://localhost:8000';
-        this.jwt_issuer = 'maniacs';
-    }
+  constructor() {
+    this.apiUrl = 'http://localhost:8000';
+    this.jwtIssuer = 'maniacs';
+  }
 }

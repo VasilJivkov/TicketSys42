@@ -1,19 +1,18 @@
-import 'rxjs/add/operator/map';
-import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AppConfig } from '../config/app.config';
-import { CompanyDetails } from '../models/company.details';
+import { ICompanyDetails } from '../models/company.details';
 
 @Injectable()
 export class CompanyService {
   constructor(private http: HttpClient, private appConfig: AppConfig) { }
 
-  getByCompanyName(title: string): Observable<CompanyDetails> {
-    return this.http.get(`${this.appConfig.apiUrl}/${title}`).map(x => <CompanyDetails>(x));
+  public getByCompanyName(title: string): Observable<ICompanyDetails> {
+    return this.http.get(`${this.appConfig.apiUrl}/${title}`).map((x) => x as ICompanyDetails);
   }
 
-  getCompanies(): Observable<Object> {
+  public getCompanies(): Observable<object> {
     return this.http.get(`${this.appConfig.apiUrl}/register`);
   }
 }

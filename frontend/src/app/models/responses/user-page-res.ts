@@ -1,10 +1,10 @@
-import { UserInfo } from "../users/user-info";
-import { Ticket } from "../ticket";
-import { Project } from "../users/project";
+import { ITicket } from '../ticket';
+import { IProject } from '../users/project';
+import { IUserInfo } from '../users/user-info';
 
-export interface UserPageResponse {
-    userInfo: UserInfo;
-    issuedTickets: Ticket[];
-    receivedTickets: Ticket[];
-    userProjects: Project[];
+export interface IUserPageResponse {
+    userInfo: IUserInfo;
+    issuedTickets: ITicket[];
+    receivedTickets: ITicket[];
+    userProjects: IProject[];
 }

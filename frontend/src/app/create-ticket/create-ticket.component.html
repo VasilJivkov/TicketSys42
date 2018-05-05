@@ -21,7 +21,7 @@
       <br>
 
       <mat-form-field>
-        <mat-select placeholder="Select a project" (change)="onProjectChange($event)" formControlName="ProjectId">
+        <mat-select placeholder="Select a project" (change)="onProjectChange($event)" formControlName="projectId">
           <mat-option *ngFor="let project of projects" [value]="project.id">
             {{project.title}}
           </mat-option>

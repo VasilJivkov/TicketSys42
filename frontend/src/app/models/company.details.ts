@@ -1,7 +1,5 @@
-import {CompanyInfo} from "./companyInfo";
+import { ICompanyInfo } from './companyInfo';
 
-
-export interface CompanyDetails {
-  companyInfo : CompanyInfo;
-
+export interface ICompanyDetails {
+  companyInfo: ICompanyInfo;
 }

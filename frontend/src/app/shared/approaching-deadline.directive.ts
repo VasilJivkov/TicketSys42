@@ -1,31 +1,32 @@
-import { Directive, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appApproachingDeadline]'
+  selector: '[appApproachingDeadline]',
 })
-export class ApproachingDeadlineDirective implements OnInit{
-  
-  constructor(private el: ElementRef,
-    private renderer: Renderer2) {
-      // renderer.setStyle(el.nativeElement, 'background', 'red');
-      
-    }
-    
-  @Input('appApproachingDeadline') deadline: Date;
+export class ApproachingDeadlineDirective implements OnInit {
 
-  ngOnInit(): void {
-       const one_day = 1000 * 60 * 60 * 24;
+  @Input('appApproachingDeadline') private deadline: Date;
+
+  private msInADay = 86400000;
+  private daysForWarning = 7;
+
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+    ) {}
+
+  public ngOnInit(): void {
+    const oneDay = this.msInADay;
 
     const currentDate = new Date();
- 
 
-    const currDate_ms = currentDate.getTime();
-    const deadline_ms = (new Date(this.deadline)).getTime();
- 
-    const difference_ms = deadline_ms - currDate_ms;
- 
-    const remainingDays = Math.round(difference_ms/one_day);
-    if (remainingDays <= 7) {
+    const currDateInMs = currentDate.getTime();
+    const deadlineInMs = (new Date(this.deadline)).getTime();
+
+    const differenceInMs = deadlineInMs - currDateInMs;
+
+    const remainingDays = Math.round(differenceInMs / oneDay);
+    if (remainingDays <= this.daysForWarning) {
       this.renderer.setStyle(this.el.nativeElement, 'background', 'red');
       this.renderer.setStyle(this.el.nativeElement, 'color', 'white');
       this.renderer.setStyle(this.el.nativeElement, 'font-weight', 'bold');
@@ -33,19 +34,4 @@ export class ApproachingDeadlineDirective implements OnInit{
 
     }
   }
-  // @Input() set myDir(deadline: Date) {
-  //   const one_day = 1000 * 60 * 60 * 24;
-
-  //   const currentDate = new Date();
-
-  //   const currDate_ms = currentDate.getTime();
-  //   const deadline_ms = deadline.getTime();
-
-  //   const difference_ms = deadline_ms - currDate_ms;
-    
-  //   const remainingDays = Math.round(difference_ms/one_day);
-  //   if (remainingDays <= 7) {
-  //     this.renderer.setStyle(this.el.nativeElement, 'background', 'red');
-  //   }
-  // }
 }

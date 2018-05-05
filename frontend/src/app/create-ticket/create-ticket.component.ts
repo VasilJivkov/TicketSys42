@@ -1,79 +1,92 @@
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormBuilder, AbstractControl, NgForm } from '@angular/forms';
-import { CreateTicketService } from './create-ticket.service';
-import { AuthService } from '../core/auth.service';
-import { DecodedToken } from '../models/users/DecodedToken';
-import { MatDatepickerInputEvent } from '@angular/material';
-import { GetCreateTicketResponse } from '../models/responses/get-create-ticket-res';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Project } from '../models/users/project';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { AuthService } from '../core/auth.service';
+import { IGetCreateTicketResponse } from '../models/responses/get-create-ticket-res';
+import { IDecodedToken } from '../models/users/DecodedToken';
+import { IProject } from '../models/users/project';
+import { CreateTicketService } from './create-ticket.service';
 
 @Component({
   selector: 'app-create-ticket',
   templateUrl: './create-ticket.component.html',
-  styleUrls: ['./create-ticket.component.css']
+  styleUrls: ['./create-ticket.component.css'],
 })
 export class CreateTicketComponent implements OnInit {
   private createTicketForm: FormGroup;
   private title: AbstractControl;
   private description: AbstractControl;
   private deadline: AbstractControl;
-  private ProjectId: AbstractControl;
+  private projectId: AbstractControl;
   private assigneeId: AbstractControl;
 
   private createTicketError: string = null;
-  
 
-  private projects: Project[];
-  private usersByProjects: Object[][];
+  private projects: IProject[];
+  private usersByProjects: object[][];
   private index: number = -1;
-  private listedUsers: Object[];
-  private user: DecodedToken;
+  private listedUsers: object[];
+  private user: IDecodedToken;
 
-  constructor(private formBuilder: FormBuilder,
+  private minLength = 6;
+  private maxLength = 30;
+
+  constructor(
+    private formBuilder: FormBuilder,
     private createTicketService: CreateTicketService,
-    private auth: AuthService) { }
+    private auth: AuthService,
+    ) { }
 
-  ngOnInit() {
-    this.auth.user.subscribe((user: DecodedToken) => this.user = user);
-    
+  public ngOnInit(): void {
+    this.auth.user.subscribe((user: IDecodedToken) => this.user = user);
+
     this.createTicketService.getProjectsAndUsers(this.user.username)
-      .subscribe((res: GetCreateTicketResponse) => {
+      .subscribe(
+        (res: IGetCreateTicketResponse) => {
         this.projects = res.projects;
         this.usersByProjects = res.usersByProjects;
-      }, (err: HttpErrorResponse) => {
-        console.log(err.error);
-      });
+      },
+        (err: HttpErrorResponse) => {
+          console.log(err.error);
+        });
 
     this.createTicketForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(24)]],
-      description: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
+      title: ['', [Validators.required, Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
+      description: ['', [Validators.required, Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
       deadline: ['', Validators.required],
-      ProjectId: ['', Validators.required],
+      projectId: ['', Validators.required],
       assigneeId: ['', Validators.required],
     });
 
     this.title = this.createTicketForm.get('title');
     this.description = this.createTicketForm.get('description');
     this.deadline = this.createTicketForm.get('deadline');
-    this.ProjectId = this.createTicketForm.get('ProjectId');
+    this.projectId = this.createTicketForm.get('projectId');
     this.assigneeId = this.createTicketForm.get('assigneeId');
   }
 
-  onProjectChange(event) {
-    const project = this.projects.find((project) => project.id === event.value);
+  public onProjectChange(event: any): void {
+    const project = this.projects.find((proj) => proj.id === event.value);
     this.index = project.index;
     this.listedUsers = this.usersByProjects[this.index];
   }
 
-  createTicket(createTicketForm: NgForm): void {
+  public dateFilter(date: Date): boolean {
+    return new Date(date) > new Date();
+  }
+
+  public createTicket(createTicketForm: NgForm): void {
     if (createTicketForm.valid) {
       const newTicket = createTicketForm.value;
-      this.createTicketService.createTicket(newTicket, this.user).subscribe((res) => {
+      newTicket.ProjectId = newTicket.projectId;
+      delete newTicket.projectId;
+
+      this.createTicketService.createTicket(newTicket, this.user).subscribe(
+        (res) => {
         console.log('successful');
         this.createTicketForm.reset();
         this.createTicketError = null;
-      },
+        },
         (err: HttpErrorResponse) => {
           this.createTicketError = err.error.err;
         });
@@ -95,9 +108,4 @@ export class CreateTicketComponent implements OnInit {
       }
     }
   }
-
-  dateFilter(date: Date): boolean {
-    return new Date(date) > new Date();
-  }
-
 }

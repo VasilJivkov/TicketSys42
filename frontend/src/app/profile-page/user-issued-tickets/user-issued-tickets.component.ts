@@ -1,23 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Ticket } from '../../models/ticket';
+import { MatPaginator, MatSort, MatTableDataSource, MatTableModule } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
-import { MatTableModule, MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { ITicket } from '../../models/ticket';
 @Component({
   selector: 'app-user-issued-tickets',
   templateUrl: './user-issued-tickets.component.html',
-  styleUrls: ['./user-issued-tickets.component.css']
+  styleUrls: ['./user-issued-tickets.component.css'],
 })
 export class UserIssuedTicketsComponent implements OnInit {
-  private issuedTickets: Ticket[] = [];
-  private dataSource;
   @ViewChild(MatSort) public sort: MatSort;
-  @ViewChild(MatPaginator) public paginator: MatPaginator
+  @ViewChild(MatPaginator) public paginator: MatPaginator;
   public displayedColumns = ['id', 'title', 'description', 'deadline', 'createdAt', 'status', 'project', 'assignee'];
+  private issuedTickets: ITicket[] = [];
+  private dataSource;
   private demoDate = new Date();
   constructor(private matTable: MatTableModule, private acRoute: ActivatedRoute) { }
 
-  ngOnInit() {
-    this.issuedTickets = this.acRoute.snapshot.data['object'].issuedTickets;
+  public ngOnInit(): void {
+    this.issuedTickets = this.acRoute.snapshot.data.object.issuedTickets;
     this.dataSource = new MatTableDataSource(this.issuedTickets);
     this.dataSource.sort = this.sort;
     setTimeout(() => this.dataSource.paginator = this.paginator);

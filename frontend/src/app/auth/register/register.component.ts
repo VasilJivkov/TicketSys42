@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, AbstractControl, FormBuilder, Validators, FormControl, NgForm } from '@angular/forms';
-import { AuthService } from '../../core/auth.service';
-import { ToastrService } from 'ngx-toastr';
-import { AccessToken } from '../../models/users/AccessToken';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CompanyTitles } from '../../models/responses/company-titles';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../core/auth.service';
 import { CompanyService } from '../../core/company.service';
+import { ICompanyTitles } from '../../models/responses/company-titles';
+import { IAccessToken } from '../../models/users/AccessToken';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
+  private minLength = 3;
+  private minLength2 = this.minLength2;
+  private maxLength = this.maxLength;
+
   private registerForm: FormGroup;
   private username: AbstractControl;
   private password: AbstractControl;
@@ -27,27 +31,31 @@ export class RegisterComponent implements OnInit {
   private newCompany: boolean = false;
   private company: AbstractControl;
 
-  private companies: string[]
+  private companies: string[];
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private auth: AuthService,
     private toastr: ToastrService,
     private router: Router,
-    private companyService: CompanyService) {}
+    private companyService: CompanyService,
+    ) {}
 
-  ngOnInit() {
-    this.companyService.getCompanies().subscribe((res: CompanyTitles) => this.companies = res.companies);
+  public ngOnInit(): void {
+    this.companyService.getCompanies().subscribe((res: ICompanyTitles) => this.companies = res.companies);
 
-    this.registerForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(24)]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
-      rePassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
+    this.registerForm = this.formBuilder.group(
+      {
+      username: ['', [Validators.required, Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
+      password: ['', [Validators.required, Validators.minLength(this.minLength2), Validators.maxLength(this.maxLength)]],
+      rePassword: ['', [Validators.required, Validators.minLength(this.minLength2), Validators.maxLength(this.maxLength)]],
       email: ['', [Validators.required, Validators.email]],
-      nickname: ['', [Validators.minLength(3), Validators.maxLength(30)]],
-      firstName: ['', [Validators.minLength(3), Validators.maxLength(30)]],
-      lastName: ['', [Validators.minLength(3), Validators.maxLength(30)]],
+      nickname: ['', [Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
+      firstName: ['', [Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
+      lastName: ['', [Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
       company: ['', [Validators.required]],
-    }, {validator: this.PasswordMatch});
+      },
+      {validator: this.PasswordMatch});
 
     // this.company = this.formBuilder.control('', [Validators.required]); // „-- dynamically adding/removing the input
 
@@ -59,24 +67,24 @@ export class RegisterComponent implements OnInit {
     this.firstName = this.registerForm.get('firstName');
     this.lastName = this.registerForm.get('lastName');
     this.company = this.registerForm.get('company');
-    
   }
 
-  register(registerForm: NgForm): void {
+  private register(registerForm: NgForm): void {
       if (registerForm.valid) {
-          const newUser = registerForm.value;
-          delete newUser.rePassword;
-          this.auth.register(registerForm.value, this.newCompany).subscribe((res: AccessToken) => {
-              localStorage.setItem('access_token', res.token);
-              this.registerError = null;
+        const newUser = registerForm.value;
+        delete newUser.rePassword;
+        this.auth.register(registerForm.value, this.newCompany).subscribe(
+          (res: IAccessToken) => {
+            localStorage.setItem('access_token', res.token);
+            this.registerError = null;
+            this.auth.getUser();
+            this.toastr.success(`Welcome, ${this.registerForm.get('username').value}!`);
+            this.router.navigate(['/home']);
+        },
+          (err: HttpErrorResponse) => {
               this.auth.getUser();
-              this.toastr.success(`Welcome, ${this.registerForm.get('username').value}!`);
-              this.router.navigate(['/home']);
-          },
-              (err: HttpErrorResponse) => {
-                this.auth.getUser();
-                  this.registerError = err.error.err;
-              });
+              this.registerError = err.error.err;
+          });
       }
   }
 
@@ -96,7 +104,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  private toggleCompany() {
+  private toggleCompany(): void {
     // if(this.registerForm.get('company')){
     //   this.registerForm.removeControl('company')
     // }else{
@@ -110,9 +118,9 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  private PasswordMatch(AC: AbstractControl) {
-    let password = AC.get('password').value; // to get value in input tag
-    let confirmPassword = AC.get('rePassword').value; // to get value in input tag
+  private PasswordMatch(AC: AbstractControl): void {
+    const password = AC.get('password').value; // to get value in input tag
+    const confirmPassword = AC.get('rePassword').value; // to get value in input tag
     if (AC.get('password').value !== AC.get('rePassword').value) {
       AC.get('rePassword').setErrors({ MatchPassword: true });
     } else {
@@ -120,7 +128,6 @@ export class RegisterComponent implements OnInit {
       if (AC.get('rePassword').errors) {
         delete AC.get('rePassword').errors.MatchPassword;
       }
-      return null;
     }
   }
 }

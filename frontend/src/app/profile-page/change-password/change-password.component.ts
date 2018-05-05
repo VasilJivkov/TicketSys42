@@ -1,33 +1,38 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AbstractControl, FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
-import { UserPageService } from '../../core/user-page.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DecodedToken } from '../../models/users/DecodedToken';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ProfilePageService } from '../profile-page.service';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.css']
+  styleUrls: ['./change-password.component.css'],
 })
 export class ChangePasswordComponent implements OnInit {
   private changePasswordForm: FormGroup;
   private password: AbstractControl;
   private rePassword: AbstractControl;
   private updateError: string = null;
-  
+
+  private minLength = 6;
+  private maxLength = 30;
+
   @Input() private requestedUser: string;
 
-  constructor(private formBuilder: FormBuilder,
-    private userService: UserPageService,
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: ProfilePageService,
     private toastr: ToastrService,
   ) { }
 
-  ngOnInit() {
-    this.changePasswordForm = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
-      rePassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
-    }, { validator: this.PasswordMatch });
+  public ngOnInit(): void {
+    this.changePasswordForm = this.formBuilder.group(
+    {
+      password: ['', [Validators.required, Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
+      rePassword: ['', [Validators.required, Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
+    },
+    { validator: this.PasswordMatch });
 
     this.password = this.changePasswordForm.get('password');
     this.rePassword = this.changePasswordForm.get('rePassword');
@@ -47,29 +52,29 @@ export class ChangePasswordComponent implements OnInit {
     }
   }
 
-  private PasswordMatch(AC: AbstractControl) {
-    let password = AC.get('password').value; // to get value in input tag
-    let confirmPassword = AC.get('rePassword').value; // to get value in input tag
+  private PasswordMatch(AC: AbstractControl): void {
+    const password = AC.get('password').value; // to get value in input tag
+    const confirmPassword = AC.get('rePassword').value; // to get value in input tag
     if (AC.get('password').value !== AC.get('rePassword').value) {
       AC.get('rePassword').setErrors({ MatchPassword: true });
     } else {
       if (AC.get('rePassword').errors) {
         delete AC.get('rePassword').errors.MatchPassword;
       }
-      return null;
     }
   }
-
-  update(changePasswordForm: NgForm) {
+  private update(changePasswordForm: NgForm): void {
     if (changePasswordForm.valid) {
       const updateDetails = changePasswordForm.value;
       updateDetails.infoType = 'password';
       updateDetails.username = this.requestedUser;
 
-      this.userService.updateUserInfo(updateDetails).subscribe(() => {
+      this.userService.updateUserInfo(updateDetails).subscribe(
+      () => {
         this.toastr.success(`Password successfuly updated!`);
         this.changePasswordForm.reset();
-      }, (err: HttpErrorResponse) => {
+      },
+      (err: HttpErrorResponse) => {
         this.updateError = 'There was a problem updating your password.';
       });
     }

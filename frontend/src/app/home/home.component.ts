@@ -1,23 +1,23 @@
-import { Component, OnInit, Injectable } from '@angular/core';
-import { Stats } from '../models/stats';
-import {StatsService} from "../core/stats.service";
+import { Component, Injectable, OnInit } from '@angular/core';
+import { StatsService } from '../core/stats.service';
+import { IStats } from '../models/stats';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  providers: [ StatsService ]
+  providers: [ StatsService ],
 })
 
 @Injectable()
 export class HomeComponent implements OnInit {
-    private stats: Stats[];
+  private stats: IStats[];
 
-    constructor(
+  constructor(
       private statsService: StatsService ,
     ) { }
 
-  ngOnInit() {
-    this.statsService.getAll().subscribe(data => this.stats = data);
+  public ngOnInit(): void {
+    this.statsService.getAll().subscribe((data) => this.stats = data);
   }
 }

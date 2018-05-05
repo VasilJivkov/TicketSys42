@@ -1,16 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
-import { DecodedToken } from '../../models/users/DecodedToken';
-import { UserInfo } from '../../models/users/user-info';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../core/auth.service';
-import { UserPageService } from '../../core/user-page.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IUserInfo } from '../../models/users/user-info';
+import { ProfilePageService } from '../profile-page.service';
 
 @Component({
   selector: 'app-update-user-details',
   templateUrl: './update-user-details.component.html',
-  styleUrls: ['./update-user-details.component.css']
+  styleUrls: ['./update-user-details.component.css'],
 })
 export class UpdateUserDetailsComponent implements OnInit {
   private updateDetailsForm: FormGroup;
@@ -23,21 +21,26 @@ export class UpdateUserDetailsComponent implements OnInit {
   private updateError: string = null;
 
   @Input() private requestedUser: string;
-  private userInfo: UserInfo;
-  
-  constructor(private formBuilder: FormBuilder,
-    private acRoute: ActivatedRoute,
-    private userService: UserPageService,
-    private router: Router) { }
+  private userInfo: IUserInfo;
 
-  ngOnInit() {
-    this.userInfo = this.acRoute.snapshot.data['object'].userInfo;
+  private minLength = 3;
+  private maxLength = 30;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private acRoute: ActivatedRoute,
+    private userService: ProfilePageService,
+    private router: Router,
+    ) { }
+
+  public ngOnInit(): void {
+    this.userInfo = this.acRoute.snapshot.data.object.userInfo;
 
     this.updateDetailsForm = this.formBuilder.group({
       email: [this.userInfo.email, [Validators.required, Validators.email]],
-      nickname: [this.userInfo.nickname || '', [Validators.minLength(3), Validators.maxLength(30)]],
-      firstName: [this.userInfo.firstName || '', [Validators.minLength(3), Validators.maxLength(30)]],
-      lastName: [this.userInfo.lastName || '', [Validators.minLength(3), Validators.maxLength(30)]],
+      nickname: [this.userInfo.nickname || '', [Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
+      firstName: [this.userInfo.firstName || '', [Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
+      lastName: [this.userInfo.lastName || '', [Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
     });
 
     this.email = this.updateDetailsForm.get('email');
@@ -62,15 +65,17 @@ export class UpdateUserDetailsComponent implements OnInit {
     }
   }
 
-  update(updateDetailsForm: NgForm) {
+  private update(updateDetailsForm: NgForm): void {
     if (updateDetailsForm.valid) {
       const updateDetails = updateDetailsForm.value;
       updateDetails.infoType = 'personal details';
       updateDetails.username = this.userInfo.username;
 
-      this.userService.updateUserInfo(updateDetails).subscribe(() => {
+      this.userService.updateUserInfo(updateDetails).subscribe(
+      () => {
         // this.toastr.success(`Details successfuly updated!`);
-      }, (err: HttpErrorResponse) => {
+      },
+      (err: HttpErrorResponse) => {
         this.updateError = 'There was a problem updating your details.';
       });
     }

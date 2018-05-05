@@ -1,3 +1,3 @@
-export interface CompanyTitles {
+export interface ICompanyTitles {
     companies: string[];
 }

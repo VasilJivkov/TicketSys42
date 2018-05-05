@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { DecodedToken } from '../models/users/DecodedToken';
 import { AuthService } from '../core/auth.service';
+import { IDecodedToken } from '../models/users/DecodedToken';
 
 @Component({
     selector: 'app-layout-header',
@@ -9,17 +8,17 @@ import { AuthService } from '../core/auth.service';
     styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  private user: DecodedToken;
+  private user: IDecodedToken;
   private isAuth: boolean;
 
   constructor(private auth: AuthService) {}
 
-  ngOnInit() {
-      this.auth.user.subscribe((user: DecodedToken) => this.user = user);
-      this.auth.isAuth.subscribe(x=>this.isAuth = x);
+  public ngOnInit(): void {
+      this.auth.user.subscribe((user: IDecodedToken) => this.user = user);
+      this.auth.isAuth.subscribe((x) => this.isAuth = x);
   }
 
-  logout(): void {
+  public logout(): void {
       this.auth.logout();
   }
 }

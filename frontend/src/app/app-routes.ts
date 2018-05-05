@@ -1,9 +1,8 @@
 
-// import { PhoneDetailsComponent } from './phones/details/phone-details.component';
 import { Routes } from '@angular/router';
+import { CreateTicketComponent } from './create-ticket/create-ticket.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './route-guards/auth-guard.service';
-import { CreateTicketComponent } from './create-ticket/create-ticket.component';
 
 export const ROUTES: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -13,5 +12,5 @@ export const ROUTES: Routes = [
   { path: 'administration', loadChildren: './administration/administration.module#AdministrationModule' },
   { path: 'company', loadChildren: './company/company.module#CompanyModule' },
   { path: 'user', loadChildren: './profile-page/profile-page.module#ProfilePageModule' },
-  { path: '**', redirectTo: '/home', /* component: NotFoundComponent */}
+  { path: '**', redirectTo: '/home'/* component: NotFoundComponent */ },
 ];

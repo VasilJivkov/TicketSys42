@@ -1,5 +1,24 @@
-import { NgModule } from '@angular/core';
-import {MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatToolbarModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatTabsModule, MatTableModule, MatCheckboxModule, MatGridListModule, MatPaginatorModule, MatSortModule, MatDatepickerModule, MatNativeDateModule} from "@angular/material";
+import {
+  NgModule,
+} from '@angular/core';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDatepickerModule,
+  MatFormFieldModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatSelectModule,
+  MatSortModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule,
+} from '@angular/material';
 
 const modules = [
   MatCardModule,
@@ -21,7 +40,7 @@ const modules = [
 ];
 
 @NgModule({
-    imports: [...modules],
-    exports: [...modules],
+  imports: [...modules],
+  exports: [...modules],
 })
 export class MaterialSharedModule {}

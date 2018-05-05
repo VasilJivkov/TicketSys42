@@ -1,39 +1,39 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EmployeesService } from '../../core/employees.service';
+import { MatPaginator, MatSort, MatTableDataSource, MatTableModule } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
-import { CompanyEmployeesResponse } from '../../models/responses/company-employees-res';
-import { UserInfo } from '../../models/users/user-info';
-import { MatSort, MatPaginator, MatTableModule, MatTableDataSource } from '@angular/material';
+import { ICompanyEmployeesResponse } from '../../models/responses/company-employees-res';
+import { IUserInfo } from '../../models/users/user-info';
+import { EmployeesService } from '../employees.service';
 
 @Component({
   selector: 'app-list-employees',
   templateUrl: './list-employees.component.html',
-  styleUrls: ['./list-employees.component.css']
+  styleUrls: ['./list-employees.component.css'],
 })
 export class ListEmployeesComponent implements OnInit {
-  private employees: UserInfo[] = [];
-  private dataSource;
+  public displayedColumns = ['id', 'username', 'email', 'firstName', 'lastName', 'nickname', 'role'];
   @ViewChild(MatSort) public sort: MatSort;
-  @ViewChild(MatPaginator) public paginator: MatPaginator
+  @ViewChild(MatPaginator) public paginator: MatPaginator;
+  private employees: IUserInfo[] = [];
+  private dataSource;
 
-  constructor(private employeesService: EmployeesService,
+  constructor(
+    private employeesService: EmployeesService,
     private activatedRoute: ActivatedRoute,
-    private matTable: MatTableModule) { }
+    private matTable: MatTableModule,
+    ) {}
 
-    public displayedColumns = ['id', 'username', 'email', 'firstName', 'lastName', 'nickname', 'role'];
-    
-  ngOnInit() {
+  public ngOnInit(): void {
     const companyTitle = this.activatedRoute.snapshot.params.company;
-    
+
     this.employeesService.getByCompanyName(companyTitle)
-      .subscribe((res: CompanyEmployeesResponse) => {
+      .subscribe((res: ICompanyEmployeesResponse) => {
         this.employees = res.employees;
-        
+
         this.dataSource = new MatTableDataSource(this.employees);
         this.dataSource.sort = this.sort;
         setTimeout(() => this.dataSource.paginator = this.paginator);
       });
-
 
   }
 
