@@ -10,6 +10,7 @@ export const ROUTES: Routes = [
   { path: 'createTicket', component: CreateTicketComponent },
   { path: 'auth', loadChildren: './auth/auth.module#AuthModule', canActivate: [AuthGuardService]},
   { path: 'administration', loadChildren: './administration/administration.module#AdministrationModule' },
+  { path: 'project', loadChildren: './project/project.module#ProjectModule' },
   { path: 'company', loadChildren: './company/company.module#CompanyModule' },
   { path: 'user', loadChildren: './profile-page/profile-page.module#ProfilePageModule' },
   { path: '**', redirectTo: '/home'/* component: NotFoundComponent */ },

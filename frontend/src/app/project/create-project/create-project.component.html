@@ -1,0 +1,31 @@
+<div class="createProjectForm-container">
+  <form [formGroup]="createProjectForm" (ngSubmit)="createProject(createProjectForm)">
+    <div class="form-container">
+      <mat-form-field>
+        <input matInput type="text" formControlName='title' placeholder="title">
+        <mat-error>{{validate(title)}}</mat-error>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input matInput type="text" formControlName='description' placeholder="description">
+        <mat-error>{{validate(description)}}</mat-error>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="myDatepicker" formControlName='deadline' placeholder="Pick deadline">
+        <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #myDatepicker></mat-datepicker>
+      </mat-form-field>
+      <br>
+
+      <mat-error>{{createProjectError}}</mat-error>
+      <br>
+      <div>
+        <input type="Submit" value="Create project">
+      </div>
+    </div>
+  </form>
+</div>
+

@@ -115,6 +115,24 @@ class AuthController {
 
                 user = await this.data.users.create(userToCreate);
 
+                // log creation
+                this.data.logs.log(
+                    `A new user ${user.username} was just created`,
+                    user.CompanyId
+                );
+                if (isNewCompany) {
+                    this.data.logs.log(
+                        user.username + ' just created a new company - ' +
+                        company.title + '.',
+                        user.CompanyId,
+                    );
+                } else {
+                    this.data.logs.log(
+                        user.username + ' just joined ' + company.title + '.',
+                        user.CompanyId,
+                    );
+                }
+
                 const expire = moment(new Date())
                     .add(config.JWT_EXPIRE_TIME, 'seconds').unix();
 

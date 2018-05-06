@@ -14,8 +14,10 @@ const init = (app, data) => {
         .get('/', controller.getHomePageData())
         .get('/createTicket', controller.createTicketPage())
         .post('/createTicket', controller.createTicket())
+        .post('/createProject', controller.createProject())
         .get('/user/:username', controller.getUserPage())
         .post('/user/:username', controller.updateUserDetails())
+        .get('/:company/logs', controller.getCompanyLogs())
         .get('/:company/employees', controller.getCompanyEmployees())
         .get('/:company', controller.getCompanyPage());
 };

@@ -7,6 +7,7 @@
     <p class="nav_link" routerLink="/home">Projects</p>
     <p class="nav_link" routerLink="/createTicket">Create ticket</p>
     <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/employees'>Company employees</p>
+    <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/logs'>Company logs</p>
     <p class="nav_link" routerLink="/home">
       <mat-icon>notifications</mat-icon>
     </p>

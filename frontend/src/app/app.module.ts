@@ -14,6 +14,7 @@ import { CreateTicketModule } from './create-ticket/create-ticket.module';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent, HeaderComponent } from './layout';
 import { WelcomeNamePipe } from './layout/welcome-name.pipe';
+import { ProjectModule } from './project/project.module';
 import { GuardsModule } from './route-guards/guards.module';
 import { MaterialSharedModule } from './shared/material-shared.module';
 import { SharedModule } from './shared/shared.module';
@@ -40,6 +41,7 @@ export const tokenGetter = () => {
     BrowserAnimationsModule,
     HttpClientModule,
     AdministrationModule,
+    ProjectModule,
     CompanyModule,
     CreateTicketModule,
     ToastrModule.forRoot(),

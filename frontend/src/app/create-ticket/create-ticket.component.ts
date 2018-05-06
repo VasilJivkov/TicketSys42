@@ -26,10 +26,12 @@ export class CreateTicketComponent implements OnInit {
   private usersByProjects: object[][];
   private index: number = -1;
   private listedUsers: object[];
+
   private user: IDecodedToken;
 
   private minLength = 6;
   private maxLength = 30;
+  private maxDescriptionLength = 120;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,7 +54,7 @@ export class CreateTicketComponent implements OnInit {
 
     this.createTicketForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
-      description: ['', [Validators.required, Validators.minLength(this.minLength), Validators.maxLength(this.maxLength)]],
+      description: ['', [Validators.required, Validators.minLength(this.minLength), Validators.maxLength(this.maxDescriptionLength)]],
       deadline: ['', Validators.required],
       projectId: ['', Validators.required],
       assigneeId: ['', Validators.required],

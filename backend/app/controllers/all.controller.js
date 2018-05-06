@@ -1,4 +1,6 @@
 const bcrypt = require('bcrypt-nodejs');
+const Sequelize = require('sequelize');
+const op = Sequelize.Op;
 
 const cryptPassword = (password) => {
     return new Promise((resolve, reject) => {
@@ -122,16 +124,31 @@ class Controller {
                     delete updateDetails.infoType;
 
                     user.updateAttributes(updateDetails);
+
+                    this.data.logs.log(
+                        user.username + ' updated his details.',
+                        user.CompanyId
+                    );
+
+                    res.status(200).send({
+                        success: 'Details updated successfuly.',
+                    });
                 } else if (updateDetails.infoType === 'password') {
                     const hashPassword =
                         await cryptPassword(updateDetails.password);
                     user.updateAttributes({
                         password: hashPassword,
                     });
+
+                    this.data.logs.log(
+                        user.username + ' updated his password.',
+                        user.CompanyId
+                    );
+
+                    res.status(200).send({
+                        success: 'Password changed successfuly.',
+                    });
                 }
-                res.status(200).send({
-                    success: 'Password changed successfuly.',
-                });
             } else {
                 res.status(401).send({
                     err: 'No user with that username found.',
@@ -174,6 +191,24 @@ class Controller {
 
             res.status(200).send({
                 employees,
+            });
+        };
+    }
+
+    getCompanyLogs() {
+        return async (req, res) => {
+            const companyTitle = req.params.company;
+
+            const company = await this.data.companies.getOneByCriteria({
+                title: companyTitle,
+            });
+
+            const logs = await this.data.logs.getAllByCriteria({
+                CompanyId: company.id,
+            }).map((log) => log.dataValues);
+
+            res.status(200).send({
+                logs,
             });
         };
     }
@@ -242,12 +277,78 @@ class Controller {
 
             try {
                 await this.data.tickets.create(ticketToCreate);
+
+                const assignee =
+                    await this.data.users.getById(ticketToCreate.assigneeId);
+                const company =
+                    await this.data.companies.getOneByCriteria({
+                        title: user.company,
+                    });
+
+                this.data.logs.log(
+                    user.username + ' assigned a ticket to ' +
+                    assignee.username,
+                    company.id,
+                );
+
                 res.status(201).send({
-                  success: true,
+                    success: true,
                 });
             } catch (error) {
                 res.status(403).send({
                     err: 'There was a problem creating your ticket.',
+                });
+            }
+        };
+    }
+
+    createProject() {
+        return async (req, res) => {
+            const projectToCreate = req.body.project;
+            const user = req.body.user;
+
+            const company = await this.data.companies.getOneByCriteria({
+                title: user.company,
+            });
+
+            if (company) {
+                projectToCreate.deadline = new Date(projectToCreate.deadline);
+                projectToCreate.ownerId = user.sub;
+                projectToCreate.CompanyId = company.id;
+
+                const projectExists =
+                    await this.data.projects.getOneByCriteria({
+                        [op.and]: [{
+                                title: projectToCreate.title,
+                            },
+                            {
+                                CompanyId: projectToCreate.CompanyId,
+                            },
+                        ],
+                    });
+
+                if (projectExists) {
+                    res.status(403).send({
+                        err: 'Project with that title already exists',
+                    });
+                } else {
+                    const project =
+                        await this.data.projects.create(projectToCreate);
+
+                    this.data.logs.log(
+                        user.username +
+                        ' created a new project - ' + project.title,
+                        projectToCreate.CompanyId
+                    );
+
+                    project.setUsers([user.sub]);
+                    res.status(201).send({
+                        success: true,
+                    });
+                }
+            } else {
+                res.status(403).send({
+                    err: 'There was a problem acquiring your company.',
                 });
             }
         };
