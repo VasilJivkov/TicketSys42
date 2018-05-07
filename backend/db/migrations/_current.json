@@ -140,10 +140,6 @@
                     "allowNull": false,
                     "seqType": "Sequelize.STRING"
                 },
-                "description": {
-                    "allowNull": false,
-                    "seqType": "Sequelize.STRING"
-                },
                 "read": {
                     "allowNull": false,
                     "seqType": "Sequelize.BOOLEAN"

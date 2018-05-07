@@ -32,4 +32,8 @@ export class TicketService {
   public reassign(ticketId: number, username: string): Observable<object> {
     return this.http.post(`${this.appConfig.apiUrl}/ticket/reassign`, {ticketId, username});
   }
+
+  public addComment(ticketId: number, comment: string, userId: number): Observable<object> {
+    return this.http.post(`${this.appConfig.apiUrl}/ticket/addComment`, {ticketId, comment, userId});
+  }
 }

@@ -293,8 +293,8 @@ class Controller {
 
             const project = await this.data.projects.getById(ticket.ProjectId);
             const users = await project.getUsers()
-              .map((user) => user.username)
-              .filter((user) => user !== assignee.username);
+                .map((user) => user.username)
+                .filter((user) => user !== assignee.username);
             res.status(200).send({
                 ticket,
                 comments,
@@ -314,7 +314,8 @@ class Controller {
             ticketToCreate.status = 'IN PROGRESS';
 
             try {
-                await this.data.tickets.create(ticketToCreate);
+                const createdTicket =
+                    await this.data.tickets.create(ticketToCreate);
 
                 const assignee =
                     await this.data.users.getById(ticketToCreate.assigneeId);
@@ -323,6 +324,13 @@ class Controller {
                         title: user.company,
                     });
 
+                const notification = await this.data.notifications.create({
+                    title: 'A new ticket was assigned to you.',
+                    read: false,
+                    deleted: false,
+                    url: '/ticket/' + createdTicket.id,
+                });
+                notification.setUsers([assignee.id]);
                 this.data.logs.log(
                     user.username + ' assigned a ticket to ' +
                     assignee.username,
@@ -337,6 +345,38 @@ class Controller {
                     err: 'There was a problem creating your ticket.',
                 });
             }
+        };
+    }
+
+    addTicketComment() {
+        return async (req, res) => {
+            const TicketId = req.body.ticketId;
+            const description = req.body.comment;
+            const UserId = req.body.userId;
+
+            this.data.comments.create({
+                TicketId,
+                description,
+                UserId,
+            });
+
+            const notification = await this.data.notifications.create({
+                title: 'A new comment was added to your ticket.',
+                read: false,
+                deleted: false,
+                url: '/ticket/' + TicketId,
+            });
+
+            const ticket = await this.data.tickets.getById(TicketId);
+
+            const users = [ticket.assigneeId, ticket.requesterId]
+                .filter((userId) => userId !== UserId);
+
+            notification.setUsers(users);
+
+            res.status(201).send({
+                success: 'Comment added successfully',
+            });
         };
     }
 
@@ -427,14 +467,22 @@ class Controller {
     inviteToProject() {
         return async (req, res) => {
             const username = req.body.username;
-            const projectId = req.body.projectId;
+            const ProjectId = req.body.projectId;
             const user = await this.data.users.getOneByCriteria({
                 username,
             });
+            const project = await this.data.projects.getById(ProjectId);
+            // await user.setProjects([projectId]);
+            const notification = await this.data.notifications.create({
+                title: 'You were invited to join a project - ' + project.title,
+                read: false,
+                deleted: false,
+                url: '/project/' + project.title,
+                ProjectId,
+            });
+            notification.setUsers([user.id]);
 
-            await user.setProjects([projectId]);
-
-            res.status(201).send({
+            res.status(200).send({
                 success: true,
             });
         };
@@ -523,23 +571,95 @@ class Controller {
     }
 
     reassignTicket() {
-      return async (req, res) => {
-        const username = req.body.username;
-        const ticketId = req.body.ticketId;
+        return async (req, res) => {
+            const username = req.body.username;
+            const ticketId = req.body.ticketId;
 
-        const ticket = await this.data.tickets.getById(ticketId);
-        const user = await this.data.users.getOneByCriteria({
-          username,
-        });
-        const assigneeId = user.id;
-        await ticket.updateAttributes({
-          assigneeId,
-        });
+            const ticket = await this.data.tickets.getById(ticketId);
+            const user = await this.data.users.getOneByCriteria({
+                username,
+            });
+            const assigneeId = user.id;
+            await ticket.updateAttributes({
+                assigneeId,
+            });
 
-        res.status(200).send({
-          success: true,
-        });
-      };
+            res.status(200).send({
+                success: true,
+            });
+        };
+    }
+
+    getUserNotifications() {
+        return async (req, res) => {
+            const userId = req.params.userId;
+            const user = await this.data.users.getById(userId);
+
+            const notifications = await user.getNotifications()
+                .map((notif) => notif.dataValues);
+
+            res.status(200).send({
+                notifications,
+            });
+        };
+    }
+
+    respondProjectInvitation() {
+        return async (req, res) => {
+            const {
+                userId,
+                projectId,
+                answer,
+                notificationId,
+            } = req.body;
+
+            const user = await this.data.users.getById(userId);
+            if (answer) {
+                await user.setProjects([projectId]);
+            }
+
+
+            const notification =
+                await this.data.notifications.getById(notificationId);
+
+            await notification.updateAttributes({
+                deleted: true,
+            });
+
+            const project = await this.data.projects.getById(projectId);
+            if (answer) {
+                this.data.logs.log(
+                    user.username + ' just joined ' + project.title + '.',
+                    user.CompanyId
+                );
+            } else {
+                this.data.logs.log(
+                    user.username +
+                    ' declined invitation to join ' +
+                    project.title + '.',
+                    user.CompanyId
+                );
+            }
+
+            res.status(204).send({});
+        };
+    }
+
+    deleteNotification() {
+        return async (req, res) => {
+            const {
+                notificationId,
+            } = req.body;
+
+            const notification =
+                await this.data.notifications.getById(notificationId);
+
+            await notification.updateAttributes({
+                deleted: true,
+            });
+
+            res.status(204).send({});
+        };
     }
 }
 

@@ -1,0 +1,54 @@
+<div [ngClass]="'searchFilter'" *ngIf="notifications?.length > 10">
+  <mat-form-field>
+    <input matInput (keyup)="searchTable($event.target.value)" placeholder="Search the table">
+  </mat-form-field>
+</div>
+
+<mat-table #table [dataSource]="dataSource" matSort matSortActive="deadline">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'idContainer'"> Id </mat-header-cell>
+    <mat-cell *matCellDef="let notification; let i = index" [ngClass]="'idContainer'"> {{i + 1}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameContainer'"> Title </mat-header-cell>
+    <mat-cell *matCellDef="let notification" [ngClass]="'nameContainer'">
+      <a routerLink="{{notification?.url}}">{{notification.title}}</a>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="createdAt">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'booleanContainer'"> Created </mat-header-cell>
+    <mat-cell *matCellDef="let notification" [appApproachingDeadline]="notification.deadline" [ngClass]="'booleanContainer'">
+      {{notification.createdAt | date: "medium"}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="ProjectId">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Action </mat-header-cell>
+    <mat-cell *matCellDef="let notification">
+      <div *ngIf="notification.ProjectId">
+        <button mat-raised-button color="primary" (click)="respond(true, notification.ProjectId, notification.id)">Accept</button>
+        <button mat-raised-button color="warn" (click)="respond(false, notification.ProjectId, notification.id)">Decline</button>
+      </div>
+    </mat-cell>
+
+
+  </ng-container>
+
+  <ng-container matColumnDef="deleted">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Delete </mat-header-cell>
+    <mat-cell *matCellDef="let notification" [ngClass]="'createdContainer'">
+      <button mat-raised-button color="warn" (click)="delete(notification.id)">Delete</button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<div [ngClass]="'tableFooter'" *ngIf="dataSource">
+  <div [ngClass]="'paginator'">
+    <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" *ngIf="notifications?.length > 10">
+    </mat-paginator>
+  </div>
+</div>
