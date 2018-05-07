@@ -1,6 +1,5 @@
 <div class="createProjectForm-container">
   <form [formGroup]="createProjectForm" (ngSubmit)="createProject(createProjectForm)">
-    <div class="form-container">
       <mat-form-field>
         <input matInput type="text" formControlName='title' placeholder="title">
         <mat-error>{{validate(title)}}</mat-error>
@@ -22,10 +21,7 @@
 
       <mat-error>{{createProjectError}}</mat-error>
       <br>
-      <div>
-        <input type="Submit" value="Create project">
-      </div>
-    </div>
+      <button class="mat-raised-button" type="Submit" value="Create">CREATE PROJECT</button>
   </form>
 </div>
 

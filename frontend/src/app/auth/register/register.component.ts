@@ -79,7 +79,8 @@ export class RegisterComponent implements OnInit {
             this.registerError = null;
             this.auth.getUser();
             this.openSnackBar('Registration complete, welcome!', 'OK');
-            this.router.navigate(['/home']);
+            this.router.navigate(['/project/all']);
+            // this.router.navigate(['/home']);
         },
           (err: HttpErrorResponse) => {
               this.auth.getUser();

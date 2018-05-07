@@ -47,7 +47,8 @@ export class LoginComponent implements OnInit {
         this.credentialsError = null;
         this.auth.getUser();
         this.openSnackBar('Successful login.', 'OK');
-        this.router.navigate(['/', this.user.company]);
+        this.router.navigate(['/project/all']);
+        // this.router.navigate(['/', this.user.company]);
       },
       (err: HttpErrorResponse) => {
         this.credentialsError = err.error.err;
