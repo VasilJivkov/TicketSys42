@@ -1,0 +1,77 @@
+<div class="container">
+  <h1>{{ticketInfo?.title}}</h1>
+
+  <div fxLayout="row wrap" fxLayoutGap="30px" fxLayoutAlign="center center">
+    <div class="description">
+      <h3>Desrcription:</h3>
+      <p>{{ticketInfo?.description}}</p>
+    </div>
+
+    <div class="deadline">
+      <h3>Deadline:</h3>
+      <p [appApproachingDeadline]="projectInfo?.deadline">{{ticketInfo?.deadline | date: "fullDate"}}</p>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutGap="30px" fxLayoutAlign="center center">
+    <div class="requester">
+      <h3>Requester:</h3>
+      <p>{{ticketInfo?.requester}}</p>
+    </div>
+
+    <div class="assignee">
+      <h3>Assignee:</h3>
+      <p>{{ticketInfo?.assignee}}</p>
+    </div>
+
+    <div class="status">
+      <h3>Status:</h3>
+      <p>{{ticketInfo?.status}}</p>
+    </div>
+
+    <button mat-raised-button color="primary" *ngIf="user.sub === ticketInfo?.assigneeId && (ticketInfo?.status === 'IN PROGRESS' || ticketInfo?.status === 'REOPENED')"
+      (click)="update('COMPLETE')">
+      Mark as complete
+    </button>
+
+    <button mat-raised-button color="primary" *ngIf="user.sub === ticketInfo?.requesterId && ticketInfo?.status === 'COMPLETE'"
+      (click)="update('REOPENED')">
+      Reopen
+    </button>
+
+    <button mat-raised-button color="primary" *ngIf="user.sub === ticketInfo?.requesterId && ticketInfo?.status !== 'CLOSED'"
+      (click)="update('CLOSED')">
+      Mark as closed
+    </button>
+
+  </div>
+
+  <form [formGroup]="reassignForm" (ngSubmit)="reassign(reassignForm)" *ngIf="ticketInfo?.status !== 'CLOSED'">
+    <mat-form-field>
+      <mat-select placeholder="Reassign ticket" formControlName="userToReassign">
+        <div *ngFor="let projectUser of projectUsers">
+          <mat-option *ngIf="projectUser !== ticketInfo?.requester" [value]="projectUser">
+            {{projectUser}}
+          </mat-option>
+        </div>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="Submit">Reassign ticket</button>
+  </form>
+
+  <div class="comments">
+    <div class="one-comment" *ngFor="let comment of comments">
+      <p>{{comment.description}}</p>
+      <p class="comment-by">By: {{comment.user}}</p>
+    </div>
+    <br>
+  </div>
+  <div *ngIf="ticketInfo?.status !== 'CLOSED'">
+    <textarea placeholder="Add comment..." rows="6" cols="50" style="resize: none" [(ngModel)]="comment" (click)='touched = true'></textarea>
+    <p style="color: red;" *ngIf="touched && comment.length < 1">Comment must not be empty</p>
+    <p>{{comment}}</p>
+    <br>
+    <button mat-raised-button color="primary" (click)="addComment()">Add comment</button>
+  </div>
+</div>

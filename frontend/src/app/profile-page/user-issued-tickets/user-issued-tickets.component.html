@@ -12,7 +12,9 @@
 
   <ng-container matColumnDef="title">
     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameContainer'"> Title </mat-header-cell>
-    <mat-cell *matCellDef="let ticket" [ngClass]="'nameContainer'"> {{ticket.title}}</mat-cell>
+    <mat-cell *matCellDef="let ticket" [ngClass]="'nameContainer'">
+      <a routerLink="/ticket/{{ticket?.id}}">{{ticket.title}}</a>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="description">

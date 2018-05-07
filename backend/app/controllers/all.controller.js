@@ -157,7 +157,7 @@ class Controller {
         };
     }
 
-    getCompanyPage() {
+    getCompanyDetails() {
         return async (req, res) => {
             const companyTitle = req.params.company;
 
@@ -265,6 +265,41 @@ class Controller {
         };
     }
 
+    getTicketDetails() {
+        return async (req, res) => {
+            const ticketId = req.params.ticketId;
+
+            let ticket = await this.data.tickets.getById(ticketId);
+            ticket = ticket.dataValues;
+
+            const assignee = await this.data.users.getById(ticket.assigneeId);
+            const requester =
+                await this.data.users.getById(ticket.requesterId);
+            ticket.assignee = assignee.username;
+            ticket.requester = requester.username;
+
+            let comments = await this.data.comments.getAllByCriteria({
+                TicketId: ticketId,
+            });
+            comments = await Promise.all(comments.map(async (comment) => {
+                const user = await this.data.users.getById(comment.UserId);
+                comment = comment.dataValues;
+                comment.user = user.username;
+                return comment;
+            }));
+
+            const project = await this.data.projects.getById(ticket.ProjectId);
+            const users = await project.getUsers()
+              .map((user) => user.username)
+              .filter((user) => user !== assignee.username);
+            res.status(200).send({
+                ticket,
+                comments,
+                users,
+            });
+        };
+    }
+
     createTicket() {
         return async (req, res) => {
             const ticketToCreate = req.body.ticket;
@@ -352,6 +387,156 @@ class Controller {
                 });
             }
         };
+    }
+
+    getProjectDetails() {
+        return async (req, res) => {
+            const projectTitle = req.params.title;
+
+            const project =
+                await this.data.projects.getOneByCriteria({
+                    title: projectTitle,
+                });
+
+            const projectUsers = await project.getUsers()
+                .map((user) => {
+                    delete user.dataValues.password;
+                    return user.dataValues;
+                });
+
+            const companyUsers = await this.data.users.getAllByCriteria({
+                CompanyId: projectUsers[0].CompanyId,
+            }).map((user) => {
+                delete user.dataValues.password;
+                return user.dataValues;
+            });
+
+            const projectInfo = project.dataValues;
+
+            res.status(200).send({
+                projectInfo,
+                projectUsers,
+                companyUsers,
+            });
+        };
+    }
+
+    inviteToProject() {
+        return async (req, res) => {
+            const username = req.body.username;
+            const projectId = req.body.projectId;
+            const user = await this.data.users.getOneByCriteria({
+                username,
+            });
+
+            await user.setProjects([projectId]);
+
+            res.status(201).send({
+                success: true,
+            });
+        };
+    }
+
+    promoteUser() {
+        return async (req, res) => {
+            const userId = req.body.userId;
+            const projectId = req.body.projectId;
+
+            const project = await this.data.projects.getById(projectId);
+
+            await project.updateAttributes({
+                ownerId: userId,
+            });
+
+            res.status(200).send({
+                success: true,
+            });
+        };
+    }
+
+    leaveProject() {
+        return async (req, res) => {
+            const userId = req.body.userId;
+            const projectId = req.body.projectId;
+
+            const user = await this.data.users.getById(userId);
+            await user.removeProjects([projectId]);
+
+            res.status(204).send({});
+        };
+    }
+
+    getCompanyProjects() {
+        return async (req, res) => {
+            const companyTitle = req.params.title;
+            const company = await this.data.companies.getOneByCriteria({
+                title: companyTitle,
+            });
+            let companyProjects;
+            if (company) {
+                companyProjects =
+                    await this.data.projects.getAllByCriteria({
+                        CompanyId: company.id,
+                    });
+                companyProjects = await Promise
+                    .all(companyProjects.map(async (project) => {
+                        let usersForProject = await project.getUsers();
+                        usersForProject = usersForProject
+                            .map((user) => user.dataValues);
+                        project = project.dataValues;
+                        project.users = usersForProject;
+                        return project;
+                    }));
+                res.status(200).send(companyProjects);
+            } else {
+                res.status(404).send({
+                    err: 'Company not found',
+                });
+            }
+        };
+    }
+
+    updateTicketStatus() {
+        return async (req, res) => {
+            const ticketId = req.body.ticketId;
+            const status = req.body.status;
+
+            const ticket = await this.data.tickets.getById(ticketId);
+
+            if (ticket) {
+                await ticket.updateAttributes({
+                    status,
+                });
+
+                res.status(200).send({
+                    success: true,
+                });
+            } else {
+                res.status(404).send({
+                    err: 'No ticket with that id found',
+                });
+            }
+        };
+    }
+
+    reassignTicket() {
+      return async (req, res) => {
+        const username = req.body.username;
+        const ticketId = req.body.ticketId;
+
+        const ticket = await this.data.tickets.getById(ticketId);
+        const user = await this.data.users.getOneByCriteria({
+          username,
+        });
+        const assigneeId = user.id;
+        await ticket.updateAttributes({
+          assigneeId,
+        });
+
+        res.status(200).send({
+          success: true,
+        });
+      };
     }
 }
 

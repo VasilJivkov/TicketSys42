@@ -6,13 +6,13 @@ var Sequelize = require('sequelize');
  * Actions summary:
  *
  * createTable "Labels", deps: []
- * createTable "Notifications", deps: []
  * createTable "Companies", deps: []
  * createTable "Users", deps: [Companies]
- * createTable "Projects", deps: [Companies, Users]
  * createTable "Logs", deps: [Companies]
- * createTable "Comments", deps: [Users, Projects]
+ * createTable "Projects", deps: [Companies, Users]
+ * createTable "Notifications", deps: [Projects]
  * createTable "Tickets", deps: [Projects, Users, Users]
+ * createTable "Comments", deps: [Users, Tickets]
  * createTable "ticketLabels", deps: [Tickets, Labels]
  * createTable "usersNotifications", deps: [Notifications, Users]
  * createTable "usersProjects", deps: [Users, Projects]
@@ -22,7 +22,7 @@ var Sequelize = require('sequelize');
 var info = {
     "revision": 1,
     "name": "initial",
-    "created": "2018-05-04T22:08:04.369Z",
+    "created": "2018-05-07T16:38:57.266Z",
     "comment": ""
 };
 
@@ -38,49 +38,6 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "title": {
-                    "type": Sequelize.STRING,
-                    "allowNull": false
-                },
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                }
-            },
-            {}
-        ]
-    },
-    {
-        fn: "createTable",
-        params: [
-            "Notifications",
-            {
-                "id": {
-                    "type": Sequelize.INTEGER,
-                    "autoIncrement": true,
-                    "primaryKey": true,
-                    "allowNull": false
-                },
-                "title": {
-                    "type": Sequelize.STRING,
-                    "allowNull": false
-                },
-                "description": {
-                    "type": Sequelize.STRING,
-                    "allowNull": false
-                },
-                "read": {
-                    "type": Sequelize.BOOLEAN,
-                    "allowNull": false
-                },
-                "deleted": {
-                    "type": Sequelize.BOOLEAN,
-                    "allowNull": false
-                },
-                "url": {
                     "type": Sequelize.STRING,
                     "allowNull": false
                 },
@@ -187,6 +144,43 @@ var migrationCommands = [{
     {
         fn: "createTable",
         params: [
+            "Logs",
+            {
+                "id": {
+                    "type": Sequelize.INTEGER,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false
+                },
+                "title": {
+                    "type": Sequelize.STRING,
+                    "allowNull": false
+                },
+                "createdAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "updatedAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "CompanyId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE",
+                    "references": {
+                        "model": "Companies",
+                        "key": "id"
+                    },
+                    "allowNull": false
+                }
+            },
+            {}
+        ]
+    },
+    {
+        fn: "createTable",
+        params: [
             "Projects",
             {
                 "id": {
@@ -242,7 +236,7 @@ var migrationCommands = [{
     {
         fn: "createTable",
         params: [
-            "Logs",
+            "Notifications",
             {
                 "id": {
                     "type": Sequelize.INTEGER,
@@ -254,40 +248,19 @@ var migrationCommands = [{
                     "type": Sequelize.STRING,
                     "allowNull": false
                 },
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                },
-                "CompanyId": {
-                    "type": Sequelize.INTEGER,
-                    "onUpdate": "CASCADE",
-                    "onDelete": "CASCADE",
-                    "references": {
-                        "model": "Companies",
-                        "key": "id"
-                    },
-                    "allowNull": false
-                }
-            },
-            {}
-        ]
-    },
-    {
-        fn: "createTable",
-        params: [
-            "Comments",
-            {
-                "id": {
-                    "type": Sequelize.INTEGER,
-                    "autoIncrement": true,
-                    "primaryKey": true,
-                    "allowNull": false
-                },
                 "description": {
+                    "type": Sequelize.STRING,
+                    "allowNull": false
+                },
+                "read": {
+                    "type": Sequelize.BOOLEAN,
+                    "allowNull": false
+                },
+                "deleted": {
+                    "type": Sequelize.BOOLEAN,
+                    "allowNull": false
+                },
+                "url": {
                     "type": Sequelize.STRING,
                     "allowNull": false
                 },
@@ -299,25 +272,15 @@ var migrationCommands = [{
                     "type": Sequelize.DATE,
                     "allowNull": false
                 },
-                "UserId": {
-                    "type": Sequelize.INTEGER,
-                    "onUpdate": "CASCADE",
-                    "onDelete": "CASCADE",
-                    "references": {
-                        "model": "Users",
-                        "key": "id"
-                    },
-                    "allowNull": false
-                },
                 "ProjectId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "CASCADE",
+                    "onDelete": "SET NULL",
                     "references": {
                         "model": "Projects",
                         "key": "id"
                     },
-                    "allowNull": false
+                    "allowNull": true
                 }
             },
             {}
@@ -391,6 +354,53 @@ var migrationCommands = [{
                     "onDelete": "CASCADE",
                     "references": {
                         "model": "Users",
+                        "key": "id"
+                    },
+                    "allowNull": false
+                }
+            },
+            {}
+        ]
+    },
+    {
+        fn: "createTable",
+        params: [
+            "Comments",
+            {
+                "id": {
+                    "type": Sequelize.INTEGER,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false
+                },
+                "description": {
+                    "type": Sequelize.STRING,
+                    "allowNull": false
+                },
+                "createdAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "updatedAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "UserId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE",
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "allowNull": false
+                },
+                "TicketId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE",
+                    "references": {
+                        "model": "Tickets",
                         "key": "id"
                     },
                     "allowNull": false

@@ -52,9 +52,6 @@ export class LoginComponent implements OnInit {
       (err: HttpErrorResponse) => {
         this.credentialsError = err.error.err;
         this.auth.getUser();
-      },
-      () => {
-          console.log('Login successful.');
       });
     }
   }

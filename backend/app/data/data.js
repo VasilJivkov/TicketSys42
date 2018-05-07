@@ -6,6 +6,7 @@ const {
     Tickets,
     Users,
     Logs,
+    Comments,
 } = require('../../db/models');
 
 const Data = require('./generic.data');
@@ -19,4 +20,5 @@ module.exports = {
     tickets: new Data(Tickets),
     users: new Data(Users),
     logs: new LogsData(Logs),
+    comments: new Data(Comments),
 };

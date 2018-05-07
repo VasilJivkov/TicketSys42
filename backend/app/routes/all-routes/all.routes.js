@@ -17,9 +17,17 @@ const init = (app, data) => {
         .post('/createProject', controller.createProject())
         .get('/user/:username', controller.getUserPage())
         .post('/user/:username', controller.updateUserDetails())
+        .post('/ticket/update', controller.updateTicketStatus())
+        .post('/ticket/reassign', controller.reassignTicket())
+        .get('/ticket/:ticketId', controller.getTicketDetails())
+        .post('/project/invite', controller.inviteToProject())
+        .post('/project/leave', controller.leaveProject())
+        .post('/project/promote', controller.promoteUser())
+        .get('/project/company/:title', controller.getCompanyProjects())
+        .get('/project/:title', controller.getProjectDetails())
         .get('/:company/logs', controller.getCompanyLogs())
         .get('/:company/employees', controller.getCompanyEmployees())
-        .get('/:company', controller.getCompanyPage());
+        .get('/:company', controller.getCompanyDetails());
 };
 
 module.exports = {

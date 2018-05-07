@@ -3,8 +3,8 @@
   <div class="auth-buttons" fxLayout="row" *ngIf="isAuth">
     <p class="nav_link" routerLink='company/{{user.company}}'>{{user.company}}</p>
     <p class="nav_link" [routerLink]="['/user', user.username]">Profile</p>
-    <p class="nav_link" routerLink="/home">Projects</p>
-    <p class="nav_link" routerLink="/createTicket">Create ticket</p>
+    <p class="nav_link" routerLink="/project/all">Projects</p>
+    <p class="nav_link" routerLink="/ticket/createTicket">Create ticket</p>
     <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/employees'>Company employees</p>
     <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/logs'>Company logs</p>
     <p class="nav_link" routerLink="/home">
