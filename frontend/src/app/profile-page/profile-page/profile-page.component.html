@@ -1,11 +1,12 @@
 <div class="profile-page-container">
-  <div fxLayout="row wrap" fxLayoutGap="15px" class="form-container" *ngIf="requestedUser === user.username">
 
-    <div fxFlex="30%" class="change-password-wrapper">
+  <div fxLayout="row wrap" fxLayout.xs="column"
+       fxLayoutAlign="center"
+       fxLayoutGap.xs="0" fxLayoutGap="15px" class="form-container" *ngIf="requestedUser === user.username">
+    <div fxFlex="45%" class="change-password-wrapper">
       <app-change-password [requestedUser]="requestedUser"></app-change-password>
     </div>
-
-    <div fxFlex="55%" class="update-details-wrapper">
+    <div fxFlex="45%" class="update-details-wrapper">
       <app-update-user-details [requestedUser]="requestedUser"></app-update-user-details>
     </div>
   </div>

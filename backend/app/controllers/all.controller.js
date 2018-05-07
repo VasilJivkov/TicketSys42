@@ -217,13 +217,16 @@ class Controller {
         return async (req, res) => {
             const tickets = await this.data.tickets.getAll();
             const companies = await this.data.companies.getAll();
+            const users = await this.data.users.getAll();
 
+            const usersCount = users.length;
             const ticketsLength = tickets.length;
             const companieslenght = companies.length;
 
             res.status(200).send({
                 ticketsLength,
                 companieslenght,
+                usersCount,
             });
         };
     }

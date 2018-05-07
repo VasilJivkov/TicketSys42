@@ -5,7 +5,6 @@ mat-tab-group mat-tab{
 
 .form-container {
   text-align: center;
-  margin-bottom: 50px;
 }
 
 .update-details-wrapper {
@@ -15,3 +14,4 @@ mat-tab-group mat-tab{
 /* .tables-container {
   width: 100%;
 } */
+

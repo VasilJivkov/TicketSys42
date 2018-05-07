@@ -2,7 +2,7 @@
 
 
 body {
-  background-color: rgb(206, 206, 206, 0.7);
+  background-image: url('/assets/background.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
