@@ -1,4 +1,6 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+
 body {
   background-image: url('https://i.ytimg.com/vi/l1Cnz4Jeq5Q/maxresdefault.jpg');
   background-size: cover;
@@ -23,15 +25,14 @@ body {
   flex: 1;
 }
 
+
 main {
   display: flex;
+  background-color: rgba(63, 81, 181, 0.51);
   flex-direction: column;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> df2cf721925088f90f0105ea531977119568e83c
 >*:not(router-outlet) {
   flex: 1;
   display: block;
+
 }

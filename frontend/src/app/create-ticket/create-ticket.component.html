@@ -1,6 +1,6 @@
 <div class="createTicketForm-container">
+  <h3>Enter Ticket information</h3>
   <form [formGroup]="createTicketForm" (ngSubmit)="createTicket(createTicketForm)">
-    <div class="form-container">
       <mat-form-field>
         <input matInput type="text" formControlName='title' placeholder="title">
         <mat-error>{{validate(title)}}</mat-error>
@@ -39,12 +39,8 @@
         <mat-select *ngIf="index === -1" placeholder="You must choose a project"></mat-select>
       </mat-form-field>
       <br>
-
       <mat-error>{{createTicketError}}</mat-error>
       <br>
-      <div>
-        <input type="Submit" value="Create ticket">
-      </div>
-    </div>
+      <button class="mat-raised-button" type="Submit" value="Create">Create ticket</button>
   </form>
 </div>

@@ -1,6 +1,6 @@
-<div>
+<div class="register-container">
+  <h3>Fill in this form to register</h3>
   <form [formGroup]="registerForm" (ngSubmit)="register(registerForm)">
-    <div class="form-container">
       <mat-form-field>
         <input matInput type="text" formControlName='username' placeholder="username">
         <mat-error>{{validate(username)}}</mat-error>
@@ -53,12 +53,8 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
+    <br>
       <mat-error>{{registerError}}</mat-error>
-      <br>
-      <div>
-        <input type="Submit" value="Register">
-      </div>
-    </div>
+        <button class="mat-raised-button" type="Submit" value="Register">REGISTER</button>
   </form>
 </div>
