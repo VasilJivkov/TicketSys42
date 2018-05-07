@@ -10,6 +10,7 @@ mat-card{
   color:white;
   background-color: #3f51b5b8;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 mat-card-subtitle{
   color:white;

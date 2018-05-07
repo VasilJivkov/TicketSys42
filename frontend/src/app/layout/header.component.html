@@ -1,6 +1,5 @@
-<mat-toolbar color="primary" role="header">
+<mat-toolbar class="air" color="primary" role="header">
   <p class="nav_link" routerLink="/home" *ngIf="!isAuth">Home</p>
-
   <div class="auth-buttons" fxLayout="row" *ngIf="isAuth">
     <p class="nav_link" routerLink='company/{{user.company}}'>{{user.company}}</p>
     <p class="nav_link" [routerLink]="['/user', user.username]">Profile</p>
