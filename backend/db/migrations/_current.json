@@ -31,10 +31,10 @@
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "ProjectId": {
+                "TicketId": {
                     "allowNull": false,
                     "references": {
-                        "model": "Projects",
+                        "model": "Tickets",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
@@ -163,6 +163,16 @@
                 "updatedAt": {
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
+                },
+                "ProjectId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Projects",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []

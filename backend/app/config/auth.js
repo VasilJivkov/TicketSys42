@@ -17,7 +17,6 @@ const init = (data) => {
      */
 
     passport.use(new JwtStrategy(opts, async (jwtPayload, done) => {
-        console.log(jwtPayload);
         const user = await data.users.getOneByCriteria({
             username: jwtPayload.username,
         });

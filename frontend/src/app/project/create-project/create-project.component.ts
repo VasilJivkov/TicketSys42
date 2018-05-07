@@ -49,7 +49,6 @@ export class CreateProjectComponent implements OnInit {
 
       this.projectService.createProject(this.user, newProject).subscribe(
         (res) => {
-          console.log('successful');
           this.createProjectForm.reset();
           this.createProjectError = null;
         },

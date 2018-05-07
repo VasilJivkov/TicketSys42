@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { AuthService } from '../core/auth.service';
-import { IGetCreateTicketResponse } from '../models/responses/get-create-ticket-res';
-import { IDecodedToken } from '../models/users/DecodedToken';
-import { IProject } from '../models/users/project';
-import { CreateTicketService } from './create-ticket.service';
+import { MatSnackBar } from '@angular/material';
+import { AuthService } from '../../core/auth.service';
+import { IGetCreateTicketResponse } from '../../models/responses/get-create-ticket-res';
+import { IDecodedToken } from '../../models/users/DecodedToken';
+import { IProject } from '../../models/users/project';
+import { TicketService } from '../ticket.service';
 
 @Component({
   selector: 'app-create-ticket',
@@ -35,8 +36,9 @@ export class CreateTicketComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private createTicketService: CreateTicketService,
+    private createTicketService: TicketService,
     private auth: AuthService,
+    public snackBar: MatSnackBar,
     ) { }
 
   public ngOnInit(): void {
@@ -85,7 +87,7 @@ export class CreateTicketComponent implements OnInit {
 
       this.createTicketService.createTicket(newTicket, this.user).subscribe(
         (res) => {
-        console.log('successful');
+        this.openSnackBar('Ticket created successfully', 'OK');
         this.createTicketForm.reset();
         this.createTicketError = null;
         },
@@ -110,4 +112,11 @@ export class CreateTicketComponent implements OnInit {
       }
     }
   }
+
+  private openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
 }

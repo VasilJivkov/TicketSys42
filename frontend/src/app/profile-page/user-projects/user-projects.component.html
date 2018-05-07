@@ -7,32 +7,35 @@
 <mat-table #table [dataSource]="dataSource" matSort matSortActive="deadline">
   <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'idContainer'"> Id </mat-header-cell>
-    <mat-cell *matCellDef="let ticket; let i = index" [ngClass]="'idContainer'"> {{i + 1}} </mat-cell>
+    <mat-cell *matCellDef="let project; let i = index" [ngClass]="'idContainer'"> {{i + 1}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="title">
     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameContainer'"> Title </mat-header-cell>
-    <mat-cell *matCellDef="let ticket" [ngClass]="'nameContainer'"> {{ticket.title}}</mat-cell>
+    <mat-cell *matCellDef="let project" [ngClass]="'nameContainer'">
+      <a routerLink="/project/{{project?.title}}">{{project.title}}</a>
+    </mat-cell>
+
   </ng-container>
 
   <ng-container matColumnDef="description">
     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'valueContainer'"> Description </mat-header-cell>
-    <mat-cell *matCellDef="let ticket" [ngClass]="'valueContainer'"> {{ticket.description}} </mat-cell>
+    <mat-cell *matCellDef="let project" [ngClass]="'valueContainer'"> {{project.description}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="deadline">
     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'booleanContainer'"> deadline </mat-header-cell>
-    <mat-cell *matCellDef="let ticket" [appApproachingDeadline]="ticket.deadline" [ngClass]="'booleanContainer'"> {{ticket.deadline | date: "medium"}}</mat-cell>
+    <mat-cell *matCellDef="let project" [appApproachingDeadline]="project.deadline" [ngClass]="'booleanContainer'"> {{project.deadline | date: "medium"}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="createdAt">
     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Created </mat-header-cell>
-    <mat-cell *matCellDef="let ticket" [ngClass]="'createdContainer'"> {{ticket.createdAt | date: "fullDate"}} </mat-cell>
+    <mat-cell *matCellDef="let project" [ngClass]="'createdContainer'"> {{project.createdAt | date: "fullDate"}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="owner">
     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> owner </mat-header-cell>
-    <mat-cell *matCellDef="let ticket" [ngClass]="'createdContainer'"> {{ticket.owner}} </mat-cell>
+    <mat-cell *matCellDef="let project" [ngClass]="'createdContainer'"> {{project.owner}} </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

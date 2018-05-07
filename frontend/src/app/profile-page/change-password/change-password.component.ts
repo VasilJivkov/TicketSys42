@@ -63,6 +63,7 @@ export class ChangePasswordComponent implements OnInit {
       }
     }
   }
+
   private update(changePasswordForm: NgForm): void {
     if (changePasswordForm.valid) {
       const updateDetails = changePasswordForm.value;

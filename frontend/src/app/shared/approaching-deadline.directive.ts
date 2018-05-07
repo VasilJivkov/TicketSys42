@@ -31,7 +31,6 @@ export class ApproachingDeadlineDirective implements OnInit {
       this.renderer.setStyle(this.el.nativeElement, 'color', 'white');
       this.renderer.setStyle(this.el.nativeElement, 'font-weight', 'bold');
       this.renderer.setStyle(this.el.nativeElement, 'border-radius', '5px');
-
     }
   }
 }

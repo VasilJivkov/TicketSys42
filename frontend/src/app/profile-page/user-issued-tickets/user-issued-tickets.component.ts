@@ -13,7 +13,6 @@ export class UserIssuedTicketsComponent implements OnInit {
   public displayedColumns = ['id', 'title', 'description', 'deadline', 'createdAt', 'status', 'project', 'assignee'];
   private issuedTickets: ITicket[] = [];
   private dataSource;
-  private demoDate = new Date();
   constructor(private matTable: MatTableModule, private acRoute: ActivatedRoute) { }
 
   public ngOnInit(): void {

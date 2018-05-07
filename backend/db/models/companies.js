@@ -65,6 +65,7 @@ module.exports = (sequelize, DataTypes) => {
         Notifications.belongsToMany(Users, {
             through: 'usersNotifications',
         });
+        Notifications.belongsTo(Projects);
         Users.belongsToMany(Notifications, {
           through: 'usersNotifications',
         });
@@ -83,7 +84,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             onDelete: 'CASCADE'
         });
-        Comments.belongsTo(Projects, {
+        Comments.belongsTo(Tickets, {
             foreignKey: {
                 allowNull: false
             },

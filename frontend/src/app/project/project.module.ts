@@ -6,6 +6,8 @@ import { SharedModule } from '../shared/shared.module';
 import { CreateProjectComponent } from './create-project/create-project.component';
 import { ROUTES } from './project-routes';
 import { ProjectService } from './project.service';
+import { ProjectDetailsComponent } from './project-details/project-details.component';
+import { CompanyProjectsComponent } from './company-projects/company-projects.component';
 
 @NgModule({
   imports: [
@@ -14,7 +16,7 @@ import { ProjectService } from './project.service';
     SharedModule,
     RouterModule.forChild(ROUTES),
   ],
-  declarations: [CreateProjectComponent],
+  declarations: [CreateProjectComponent, ProjectDetailsComponent, CompanyProjectsComponent],
   providers: [ProjectService],
 
 })
