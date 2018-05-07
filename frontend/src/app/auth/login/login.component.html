@@ -1,6 +1,7 @@
-<div>
-  <form validate [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
-    <div class="form-container">
+<div class="login-container">
+<h3>Type in your username and password</h3>
+
+    <form validate [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
       <mat-form-field>
         <input matInput type="text" formControlName='username' placeholder="username">
         <mat-error>{{validate(username)}}</mat-error>
@@ -12,10 +13,6 @@
       </mat-form-field>
       <br>
       <mat-error>{{credentialsError}}</mat-error>
-      <br>
-      <div>
-        <input type="Submit" value="Login">
-      </div>
-    </div>
-  </form>
+     <button class="mat-raised-button" type="Submit" value="Login">LOGIN</button>
+    </form>
 </div>

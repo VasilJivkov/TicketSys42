@@ -1,4 +1,6 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+
 body {
   background-color: rgb(206, 206, 206, 0.7);
   background-size: cover;
@@ -23,11 +25,12 @@ body {
   flex: 1;
 }
 
+
 main {
   display: flex;
+  background-color: rgba(63, 81, 181, 0.51);
   flex-direction: column;
 }
-
 >*:not(router-outlet) {
   flex: 1;
   display: block;
