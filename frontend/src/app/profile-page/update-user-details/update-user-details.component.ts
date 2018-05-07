@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IUserInfo } from '../../models/users/user-info';
 import { ProfilePageService } from '../profile-page.service';
@@ -31,6 +32,7 @@ export class UpdateUserDetailsComponent implements OnInit {
     private acRoute: ActivatedRoute,
     private userService: ProfilePageService,
     private router: Router,
+    public snackBar: MatSnackBar,
     ) { }
 
   public ngOnInit(): void {
@@ -73,11 +75,18 @@ export class UpdateUserDetailsComponent implements OnInit {
 
       this.userService.updateUserInfo(updateDetails).subscribe(
       () => {
-        // this.toastr.success(`Details successfuly updated!`);
+        this.openSnackBar('Your details were updated!', 'OK');
       },
       (err: HttpErrorResponse) => {
         this.updateError = 'There was a problem updating your details.';
       });
     }
   }
+
+  private openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
 }

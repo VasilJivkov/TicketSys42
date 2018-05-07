@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../core/auth.service';
 import { CompanyService } from '../../core/company.service';
 import { ICompanyTitles } from '../../models/responses/company-titles';
@@ -36,9 +36,9 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private auth: AuthService,
-    private toastr: ToastrService,
     private router: Router,
     private companyService: CompanyService,
+    public snackBar: MatSnackBar,
     ) {}
 
   public ngOnInit(): void {
@@ -78,7 +78,7 @@ export class RegisterComponent implements OnInit {
             localStorage.setItem('access_token', res.token);
             this.registerError = null;
             this.auth.getUser();
-            this.toastr.success(`Welcome, ${this.registerForm.get('username').value}!`);
+            this.openSnackBar('Registration complete, welcome!', 'OK');
             this.router.navigate(['/home']);
         },
           (err: HttpErrorResponse) => {
@@ -124,10 +124,15 @@ export class RegisterComponent implements OnInit {
     if (AC.get('password').value !== AC.get('rePassword').value) {
       AC.get('rePassword').setErrors({ MatchPassword: true });
     } else {
-      // AC.get('password').setErrors({ MatchPassword: false});
       if (AC.get('rePassword').errors) {
         delete AC.get('rePassword').errors.MatchPassword;
       }
     }
+  }
+
+  private openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material';
 import { ProfilePageService } from '../profile-page.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class ChangePasswordComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: ProfilePageService,
-    private toastr: ToastrService,
+    public snackBar: MatSnackBar,
   ) { }
 
   public ngOnInit(): void {
@@ -72,7 +72,7 @@ export class ChangePasswordComponent implements OnInit {
 
       this.userService.updateUserInfo(updateDetails).subscribe(
       () => {
-        this.toastr.success(`Password successfuly updated!`);
+        this.openSnackBar('Password updated successfully.', 'OK');
         this.changePasswordForm.reset();
       },
       (err: HttpErrorResponse) => {
@@ -80,4 +80,11 @@ export class ChangePasswordComponent implements OnInit {
       });
     }
   }
+
+  private openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
 }

@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../../core/auth.service';
 import { IDecodedToken } from '../../models/users/DecodedToken';
 import { ProjectService } from '../project.service';
@@ -27,6 +28,7 @@ export class CreateProjectComponent implements OnInit {
     private formBuilder: FormBuilder,
     private auth: AuthService,
     private projectService: ProjectService,
+    public snackBar: MatSnackBar,
   ) {}
 
   public ngOnInit(): void {
@@ -49,6 +51,7 @@ export class CreateProjectComponent implements OnInit {
 
       this.projectService.createProject(this.user, newProject).subscribe(
         (res) => {
+          this.openSnackBar('Project created successfully', 'OK');
           this.createProjectForm.reset();
           this.createProjectError = null;
         },
@@ -78,4 +81,9 @@ export class CreateProjectComponent implements OnInit {
     }
   }
 
+  private openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 }

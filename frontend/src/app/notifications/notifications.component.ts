@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource, MatTableModule } from '@angular/material';
+import { MatPaginator, MatSnackBar, MatSort, MatTableDataSource, MatTableModule } from '@angular/material';
 import { AuthService } from '../core/auth.service';
 import { NotificationsService } from '../core/notifications.service';
 import { INotification } from '../models/notification';
@@ -24,6 +24,7 @@ export class NotificationsComponent implements OnInit {
     private auth: AuthService,
     private matTable: MatTableModule,
     private notificationsService: NotificationsService,
+    public snackBar: MatSnackBar,
   ) {}
 
   public ngOnInit(): void {
@@ -53,6 +54,7 @@ export class NotificationsComponent implements OnInit {
     };
     this.notificationsService.respond(body).subscribe(
       (res) => {
+        this.openSnackBar('Your response was accepted!', 'OK');
         this.ngOnInit();
       },
     );
@@ -61,8 +63,15 @@ export class NotificationsComponent implements OnInit {
   public delete(notificationId: number): void {
     this.notificationsService.deleteNotification(notificationId).subscribe(
       (res) => {
+        this.openSnackBar('Notification deleted, welcome!', 'OK');
         this.ngOnInit();
       },
     );
+  }
+
+  private openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

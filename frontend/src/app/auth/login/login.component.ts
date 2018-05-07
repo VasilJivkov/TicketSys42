@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../core/auth.service';
 import { IAccessToken } from '../../models/users/AccessToken';
 import { IDecodedToken } from '../../models/users/DecodedToken';
@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private auth: AuthService,
-    private toastr: ToastrService,
     private router: Router,
+    public snackBar: MatSnackBar,
     ) { }
 
   public ngOnInit(): void {
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('access_token', res.token);
         this.credentialsError = null;
         this.auth.getUser();
-        this.toastr.success(`Welcome, ${this.loginForm.get('username').value}!`);
+        this.openSnackBar('Successful login.', 'OK');
         this.router.navigate(['/', this.user.company]);
       },
       (err: HttpErrorResponse) => {
@@ -62,4 +62,9 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  private openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 }
