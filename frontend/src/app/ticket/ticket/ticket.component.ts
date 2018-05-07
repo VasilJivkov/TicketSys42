@@ -61,6 +61,13 @@ export class TicketComponent implements OnInit {
         this.ngOnInit();
       },
     );
+  }
 
+  public addComment(): void {
+    this.ticketService.addComment(this.ticketId, this.comment, this.user.sub).subscribe(
+      (res) => {
+        this.ngOnInit();
+      },
+    );
   }
 }

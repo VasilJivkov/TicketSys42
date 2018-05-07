@@ -10,9 +10,11 @@ import { AppComponent } from './app.component';
 import { CompanyModule } from './company/company.module';
 import { AppConfig } from './config/app.config';
 import { CoreModule } from './core/core.module';
+import { NotificationsService } from './core/notifications.service';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent, HeaderComponent } from './layout';
 import { WelcomeNamePipe } from './layout/welcome-name.pipe';
+import { NotificationsComponent } from './notifications/notifications.component';
 import { ProjectModule } from './project/project.module';
 import { GuardsModule } from './route-guards/guards.module';
 import { MaterialSharedModule } from './shared/material-shared.module';
@@ -30,6 +32,7 @@ export const tokenGetter = () => {
     HeaderComponent,
     FooterComponent,
     WelcomeNamePipe,
+    NotificationsComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -53,7 +56,7 @@ export const tokenGetter = () => {
       },
     }),
   ],
-  providers: [AppConfig],
+  providers: [AppConfig, NotificationsService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

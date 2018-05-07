@@ -70,7 +70,6 @@
   <div *ngIf="ticketInfo?.status !== 'CLOSED'">
     <textarea placeholder="Add comment..." rows="6" cols="50" style="resize: none" [(ngModel)]="comment" (click)='touched = true'></textarea>
     <p style="color: red;" *ngIf="touched && comment.length < 1">Comment must not be empty</p>
-    <p>{{comment}}</p>
     <br>
     <button mat-raised-button color="primary" (click)="addComment()">Add comment</button>
   </div>
