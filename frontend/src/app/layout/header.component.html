@@ -1,6 +1,7 @@
  <mat-toolbar color="primary">
    <p class="nav_link" routerLink="/home" *ngIf="!isAuth">Home</p>
 
+   <!--hidden menu start-->
    <div fxShow="true" fxHide.gt-md="true">
      <button mat-button [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon>Menu</button>
      <mat-menu #menu="matMenu">
@@ -9,20 +10,25 @@
        <button mat-menu-item><p class="nav_link" routerLink="/project/all">Projects</p></button>
        <button mat-menu-item><p class="nav_link" routerLink="/ticket/createTicket">Create ticket</p></button>
        <button mat-menu-item><p class="nav_link" routerLink="/notifications"><mat-icon>notifications</mat-icon></p></button>
-       <button mat-menu-item><p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/logs'>Company logs</p></button>
-       <button mat-menu-item><p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/employees'>Company employees</p></button>
+       <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/logs'>Company logs</p>
+      <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/employees'>Company employees</p>
      </mat-menu>
    </div>
+   <!--hidden menu end-->
 
-    <div class="auth-buttons" fxLayout="row" *ngIf="isAuth" fxShow="true" fxHide.lt-md="true">
+   <!--main menu-->
+    <div class="auth-buttons" fxLayout="row" *ngIf="isAuth" fxShow="true" fxHide.lt-lg="true">
       <p class="nav_link" routerLink='company/{{user.company}}'>{{user.company}}</p>
       <p class="nav_link" routerLink="/project/all">Projects</p>
-      <p class="nav_link" routerLink="/ticket/createTicket">Create ticket</p>
+      <p class="nav_link" routerLink="/project/createProject">Create Project</p>
+      <p class="nav_link" routerLink="/ticket/createTicket">Create Ticket</p>
       <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/employees'>Company employees</p>
       <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/logs'>Company logs</p>
     </div>
+   <!--main menu end-->
 
    <span class="example-fill-remaining-space"></span>
+
     <!-- This fills the remaining space of the current row -->
 
     <!--<button (click)="isAuth" style="margin-right: 30px">Auth</button>-->
@@ -30,7 +36,6 @@
     <button mat-button routerLink="/auth/register" *ngIf="!isAuth">Register</button>
 
     <div fxLayout="row" *ngIf="isAuth">
-      <p class="nav_link" [routerLink]="['/user', user.username]">Profile</p>
       <p class="nav_link" routerLink="/notifications">
         <mat-icon>notifications</mat-icon>
       </p>
