@@ -1,4 +1,4 @@
-<div [ngClass]="'searchFilter'" *ngIf="userProjects.length > 10">
+<div *ngIf="userProjects.length > 10">
   <mat-form-field>
     <input matInput (keyup)="searchTable($event.target.value)" placeholder="Search the table">
   </mat-form-field>
@@ -6,44 +6,44 @@
 
 <mat-table #table [dataSource]="dataSource" matSort matSortActive="deadline">
   <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'idContainer'"> Id </mat-header-cell>
-    <mat-cell *matCellDef="let project; let i = index" [ngClass]="'idContainer'"> {{i + 1}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+    <mat-cell *matCellDef="let project; let i = index"> {{i + 1}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="title">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameContainer'"> Title </mat-header-cell>
-    <mat-cell *matCellDef="let project" [ngClass]="'nameContainer'">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+    <mat-cell *matCellDef="let project">
       <a routerLink="/project/{{project?.title}}">{{project.title}}</a>
     </mat-cell>
 
   </ng-container>
 
   <ng-container matColumnDef="description">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'valueContainer'"> Description </mat-header-cell>
-    <mat-cell *matCellDef="let project" [ngClass]="'valueContainer'"> {{project.description}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+    <mat-cell *matCellDef="let project"> {{project.description}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="deadline">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'booleanContainer'"> deadline </mat-header-cell>
-    <mat-cell *matCellDef="let project" [appApproachingDeadline]="project.deadline" [ngClass]="'booleanContainer'"> {{project.deadline | date: "medium"}}</mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> deadline </mat-header-cell>
+    <mat-cell *matCellDef="let project" [appApproachingDeadline]="project.deadline"> {{project.deadline | date: "medium"}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="createdAt">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Created </mat-header-cell>
-    <mat-cell *matCellDef="let project" [ngClass]="'createdContainer'"> {{project.createdAt | date: "fullDate"}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Created </mat-header-cell>
+    <mat-cell *matCellDef="let project"> {{project.createdAt | date: "fullDate"}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="owner">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> owner </mat-header-cell>
-    <mat-cell *matCellDef="let project" [ngClass]="'createdContainer'"> {{project.owner}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> owner </mat-header-cell>
+    <mat-cell *matCellDef="let project"> {{project.owner}} </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 
-<div [ngClass]="'tableFooter'" *ngIf="dataSource">
-  <div [ngClass]="'paginator'">
+<div *ngIf="dataSource">
+  <div>
     <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" *ngIf="userProjects.length > 10">
     </mat-paginator>
   </div>

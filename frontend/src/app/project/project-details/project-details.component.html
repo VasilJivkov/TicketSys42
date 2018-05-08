@@ -58,7 +58,7 @@
 
   <div class="project-members">
     <h3>Project members:</h3>
-    <div [ngClass]="'searchFilter'" *ngIf="projectUsers?.length > 10">
+    <div *ngIf="projectUsers?.length > 10">
       <mat-form-field>
         <input matInput (keyup)="searchTable($event.target.value)" placeholder="Search the table">
       </mat-form-field>
@@ -66,18 +66,18 @@
 
     <mat-table #table [dataSource]="dataSource" matSort matSortActive="id">
       <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'idContainer'"> Id </mat-header-cell>
-        <mat-cell *matCellDef="let user; let i = index" [ngClass]="'idContainer'"> {{i + 1}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+        <mat-cell *matCellDef="let user; let i = index"> {{i + 1}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="username">
-        <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameContainer'"> Title </mat-header-cell>
-        <mat-cell *matCellDef="let user" [ngClass]="'nameContainer'"> {{user.username}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.username}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="role">
-        <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'valueContainer'"> Description </mat-header-cell>
-        <mat-cell *matCellDef="let user" [ngClass]="'valueContainer'">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+        <mat-cell *matCellDef="let user">
           <p *ngIf="projectInfo?.ownerId === user.id">Project owner</p>
           <p *ngIf="projectInfo?.ownerId !== user.id">Project member</p>
         </mat-cell>
@@ -87,8 +87,8 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-    <div [ngClass]="'tableFooter'" *ngIf="dataSource">
-      <div [ngClass]="'paginator'">
+    <div *ngIf="dataSource">
+      <div>
         <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" *ngIf="projectUsers.length > 10">
         </mat-paginator>
       </div>

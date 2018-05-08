@@ -8,7 +8,7 @@ import { RoleGuardService } from './route-guards/role-guard.service';
 
 export const ROUTES: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent},
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
   { path: 'notifications', component: NotificationsComponent, canActivate: [NotAuthGuardService] },
   { path: 'ticket', loadChildren: './ticket/ticket.module#TicketModule', canActivate: [NotAuthGuardService]},
   { path: 'auth', loadChildren: './auth/auth.module#AuthModule', canActivate: [AuthGuardService]},

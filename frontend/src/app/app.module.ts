@@ -21,7 +21,7 @@ import { MaterialSharedModule } from './shared/material-shared.module';
 import { SharedModule } from './shared/shared.module';
 import { TicketModule } from './ticket/ticket.module';
 
-export const tokenGetter = () => {
+export let tokenGetter = () => {
     return localStorage.getItem('access_token');
 };
 

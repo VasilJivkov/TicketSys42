@@ -1,4 +1,4 @@
-<div class="table-container" [ngClass]="'searchFilter'" *ngIf="employees.length > 10">
+<div class="table-container" *ngIf="employees.length > 10">
   <mat-form-field>
     <input matInput (keyup)="searchTable($event.target.value)" placeholder="Search the table">
   </mat-form-field>
@@ -6,46 +6,46 @@
 
 <mat-table #table [dataSource]="dataSource" matSort matSortActive="name">
   <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'idContainer'"> Id </mat-header-cell>
-    <mat-cell *matCellDef="let employee; let i = index" [ngClass]="'idContainer'"> {{i + 1}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+    <mat-cell *matCellDef="let employee; let i = index"> {{i + 1}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="username">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameContainer'"> Username </mat-header-cell>
-    <mat-cell *matCellDef="let employee" [ngClass]="'nameContainer'"> <a [routerLink]="['/user', employee.username]">{{employee.username}}</a></mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Username </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> <a [routerLink]="['/user', employee.username]">{{employee.username}}</a></mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="email">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'valueContainer'"> E-mail </mat-header-cell>
-    <mat-cell *matCellDef="let employee" [ngClass]="'valueContainer'"> {{employee.email}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.email}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="firstName">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'booleanContainer'"> First Name </mat-header-cell>
-    <mat-cell *matCellDef="let employee" [ngClass]="'booleanContainer'"> {{employee.firstName}}</mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> First Name </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.firstName}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="lastName">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Last Name </mat-header-cell>
-    <mat-cell *matCellDef="let employee" [ngClass]="'createdContainer'"> {{employee.lastName}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.lastName}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="nickname">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Nickname </mat-header-cell>
-    <mat-cell *matCellDef="let employee" [ngClass]="'createdContainer'"> {{employee.nickname}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Nickname </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.nickname}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="role">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Role </mat-header-cell>
-    <mat-cell *matCellDef="let employee" [ngClass]="'createdContainer'"> {{employee.role}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Role </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.role}} </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 
-<div [ngClass]="'tableFooter'" *ngIf="dataSource">
-  <div [ngClass]="'paginator'">
+<div *ngIf="dataSource">
+  <div>
     <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" *ngIf="employees.length > 10">
     </mat-paginator>
   </div>

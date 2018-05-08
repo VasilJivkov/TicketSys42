@@ -1,4 +1,4 @@
-<div class="table-container" [ngClass]="'searchFilter'" *ngIf="companyLogs.length > 10">
+<div class="table-container" *ngIf="companyLogs.length > 10">
   <mat-form-field>
     <input matInput (keyup)="searchTable($event.target.value)" placeholder="Search the table">
   </mat-form-field>
@@ -6,18 +6,18 @@
 
 <mat-table #table [dataSource]="dataSource" matSort matSortActive="name">
   <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'idContainer'"> Id </mat-header-cell>
-    <mat-cell *matCellDef="let log; let i = index" [ngClass]="'idContainer'"> {{i + 1}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+    <mat-cell *matCellDef="let log; let i = index"> {{i + 1}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="title">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameContainer'"> Log </mat-header-cell>
-    <mat-cell *matCellDef="let log" [ngClass]="'nameContainer'">{{log.title}}</mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Log </mat-header-cell>
+    <mat-cell *matCellDef="let log">{{log.title}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="createdAt">
-    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'createdContainer'"> Created </mat-header-cell>
-    <mat-cell *matCellDef="let log" [ngClass]="'createdContainer'"> {{log.createdAt | date: "fullDate"}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Created </mat-header-cell>
+    <mat-cell *matCellDef="let log"> {{log.createdAt | date: "fullDate"}} </mat-cell>
   </ng-container>
 
 
@@ -25,8 +25,8 @@
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 
-<div [ngClass]="'tableFooter'" *ngIf="dataSource">
-  <div [ngClass]="'paginator'">
+<div *ngIf="dataSource">
+  <div>
     <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" *ngIf="companyLogs.length > 10">
     </mat-paginator>
   </div>
