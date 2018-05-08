@@ -1,5 +1,6 @@
 <div class="createProjectForm-container">
   <form [formGroup]="createProjectForm" (ngSubmit)="createProject(createProjectForm)">
+    <h3>Describe the project</h3>
       <mat-form-field>
         <input matInput type="text" formControlName='title' placeholder="title">
         <mat-error>{{validate(title)}}</mat-error>

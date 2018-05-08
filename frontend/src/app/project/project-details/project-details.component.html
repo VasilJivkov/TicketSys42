@@ -1,49 +1,62 @@
-<div class="container">
-  <h1>{{projectInfo?.title}}</h1>
+<div class="project-container">
+  <mat-card>
+    <mat-card-content>
+      <div class="critical-info" fxLayout="row" fxLayout.xs="column" >
+        <div class="title" fxFlex="32%">
+          <h3>Title</h3>
+          <mat-card-title><h3>{{projectInfo?.title}}</h3></mat-card-title>
+        </div>
+        <mat-divider [vertical]="true"></mat-divider>
+        <div class="description" fxFlex="32%">
+          <h3>Desrcription</h3>
+          <p>{{projectInfo?.description}}</p>
+        </div>
+        <mat-divider [vertical]="true"></mat-divider>
+        <div class="deadline" fxFlex="32%" [appApproachingDeadline]="projectInfo?.deadline">
+          <h3>Deadline</h3>
+          <p>{{projectInfo?.deadline | date: "fullDate"}}</p>
+        </div>
+      </div>
+    </mat-card-content>
 
-  <div fxLayout="row wrap" fxLayoutGap="15px">
-    <div class="description">
-      <h3>Desrcription:</h3>
-      <p>{{projectInfo?.description}}</p>
-    </div>
 
-    <div class="description">
-      <h3>Deadline:</h3>
-      <p [appApproachingDeadline]="projectInfo?.deadline">{{projectInfo?.deadline | date: "fullDate"}}</p>
-    </div>
+    <mat-card-actions>
+      <div *ngIf="userBelongs" fxFlexAlign="center" fxLayout="row" fxLayout.xs="column">
+        <div class="changeOwner" fxFlex="32%">
+          <form [formGroup]="changeOwnerForm" (ngSubmit)="promote(changeOwnerForm)">
+            <mat-form-field *ngIf="projectInfo?.ownerId === user.sub">
+              <mat-select placeholder="Employee to promote" formControlName="userToPromote">
+                <div *ngFor="let projectUser of projectUsers">
+                  <mat-option *ngIf="projectUser.username !== user.username" [value]="projectUser">
+                    {{projectUser?.username}}
+                  </mat-option>
+                </div>
+              </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="Submit" *ngIf="projectInfo?.ownerId === user.sub">Promote to owner</button>
+          </form>
+        </div>
+        <div class="inviteUser" fxFlex="32%">
+          <form [formGroup]="inviteUserForm" (ngSubmit)="invite(inviteUserForm)">
+            <mat-form-field *ngIf="projectInfo?.ownerId === user.sub">
+              <mat-select placeholder="Employee to invite" formControlName="userToInvite">
+                <mat-option *ngFor="let user of filteredUsers" [value]="user">
+                  {{user}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="Submit" *ngIf="projectInfo?.ownerId === user.sub">Invite to project</button>
+          </form>
+        </div>
+        <div class="leave" fxFlex="32%">
+          <button mat-raised-button color="primary" (click)="leaveProject()" [disabled]="projectInfo?.ownerId === user.sub">Leave project</button>
+        </div>
+      </div>
+    </mat-card-actions>
+  </mat-card>
 
-    <div *ngIf="userBelongs">
-      <form [formGroup]="changeOwnerForm" (ngSubmit)="promote(changeOwnerForm)">
-        <mat-form-field *ngIf="projectInfo?.ownerId === user.sub">
-          <mat-select placeholder="Employee to promote" formControlName="userToPromote">
-            <div *ngFor="let projectUser of projectUsers">
-              <mat-option *ngIf="projectUser.username !== user.username" [value]="projectUser">
-                {{projectUser?.username}}
-              </mat-option>
-            </div>
-          </mat-select>
-        </mat-form-field>
 
-        <button mat-raised-button color="primary" type="Submit" *ngIf="projectInfo?.ownerId === user.sub">Promote to owner</button>
-      </form>
-
-      <form [formGroup]="inviteUserForm" (ngSubmit)="invite(inviteUserForm)">
-        <mat-form-field *ngIf="projectInfo?.ownerId === user.sub">
-          <mat-select placeholder="Employee to invite" formControlName="userToInvite">
-            <mat-option *ngFor="let user of filteredUsers" [value]="user">
-              {{user}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <button mat-raised-button color="primary" type="Submit" *ngIf="projectInfo?.ownerId === user.sub">Invite to project</button>
-      </form>
-    </div>
-
-    <button mat-raised-button color="primary" (click)="leaveProject()" [disabled]="projectInfo?.ownerId === user.sub">Leave project</button>
-  </div>
-
-  <div>
+  <div class="project-members">
     <h3>Project members:</h3>
     <div [ngClass]="'searchFilter'" *ngIf="projectUsers?.length > 10">
       <mat-form-field>

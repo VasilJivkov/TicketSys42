@@ -1,5 +1,7 @@
-<div class="container">
-  <h2>Company Projects</h2> <button mat-fab routerLink="/project/createProject" color="primary">+</button>
+<div class="company-project-container">
+  <span class="addButton"><button mat-fab routerLink="/project/createProject" color="primary">+</button></span>
+  <h2>Company Projects</h2>
+
   <div class="table-container mat-elevation-z8">
     <div [ngClass]="'noData'" *ngIf="companyProjects?.length === 0">
       <p>There are no projects for your Company yet</p>
@@ -8,6 +10,7 @@
       <mat-form-field>
         <input matInput (keyup)="searchInTable($event.target.value)" placeholder="Search the table">
       </mat-form-field>
+      <mat-icon>search</mat-icon>
     </div>
 
     <mat-table #table [dataSource]="dataSource" matSort matSortActive="name">

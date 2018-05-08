@@ -8,12 +8,14 @@ import { CreateProjectComponent } from './create-project/create-project.componen
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { ROUTES } from './project-routes';
 import { ProjectService } from './project.service';
+import {MatDividerModule} from "@angular/material";
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialSharedModule,
     SharedModule,
+    MatDividerModule,
     RouterModule.forChild(ROUTES),
   ],
   declarations: [CreateProjectComponent, ProjectDetailsComponent, CompanyProjectsComponent],

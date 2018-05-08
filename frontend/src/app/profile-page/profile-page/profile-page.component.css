@@ -11,7 +11,7 @@ mat-tab-group mat-tab{
   text-align: center;
 }
 
-/* .tables-container {
-  width: 100%;
-} */
+.tables-container {
+  background-color: white;
+}
 

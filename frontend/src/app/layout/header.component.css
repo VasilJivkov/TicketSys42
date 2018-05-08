@@ -3,6 +3,12 @@
     flex: 1 1 auto;
 }
 
+.nav_link {
+  text-transform: uppercase;
+  font-size: 0.7em;
+  text-align: center;
+}
+
 .nav_link:hover {
   cursor: pointer;
 }

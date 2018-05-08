@@ -1,19 +1,23 @@
  <mat-card>
     <h2>Platform usage statistics</h2>
-    <div id="stats-container">
-        <mat-card class="center">
+    <div id="stats-container" fxLayout
+         fxLayout.xs="column"
+         fxLayoutAlign="center"
+         fxLayoutGap="10px"
+         fxLayoutGap.xs="0">
+        <mat-card fxFlexOrder="1" fxFlex="25%">
           <mat-card-title-group>
             <mat-card-title><mat-icon>event</mat-icon> {{stats?.ticketsLength}} Tickets</mat-card-title>
             <mat-card-subtitle>are being served by our app</mat-card-subtitle>
           </mat-card-title-group>
         </mat-card>
-        <mat-card class="center">
-          <mat-card-title-group>
+        <mat-card fxFlexOrder="2" fxFlex="25%">
+          <mat-card-title-group >
             <mat-card-title><mat-icon>business_center</mat-icon> {{stats?.companieslenght}} Companies</mat-card-title>
             <mat-card-subtitle>are already relying on us</mat-card-subtitle>
           </mat-card-title-group>
         </mat-card>
-        <mat-card class="center">
+        <mat-card fxFlexOrder="3" fxFlex="25%">
           <mat-card-title-group>
             <mat-card-title><mat-icon>account_box</mat-icon> {{stats?.usersCount}} Users</mat-card-title>
             <mat-card-subtitle>depend on us, to have their daily agenda well organized</mat-card-subtitle>

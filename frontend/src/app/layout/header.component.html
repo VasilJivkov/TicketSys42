@@ -9,7 +9,7 @@
        <button mat-menu-item><p class="nav_link" [routerLink]="['/user', user.username]">Profile</p></button>
        <button mat-menu-item><p class="nav_link" routerLink="/project/all">Projects</p></button>
        <button mat-menu-item><p class="nav_link" routerLink="/ticket/createTicket">Create ticket</p></button>
-       <button mat-menu-item><p class="nav_link" routerLink="/notifications"><mat-icon>notifications</mat-icon></p></button>
+       <button mat-menu-item><p class="nav_link" routerLink="/notifications"><mat-icon>notifications</mat-icon>notifications</p></button>
        <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/logs'>Company logs</p>
       <p *ngIf="user.role === 'Admin'" class="nav_link" routerLink='administration/{{user.company}}/employees'>Company employees</p>
      </mat-menu>
